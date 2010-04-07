@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   `UserID` int(11) NOT NULL,
   `ProductID` int(11) NOT NULL,
   `Price` double NOT NULL,
-  `ShippingAddress` varchar(255) NOT NULL,
+  `ShippingAddress` varchar(256) NOT NULL,
   `Date` date NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `UserID` (`UserID`)
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Password` varchar(32) NOT NULL,
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(32) NOT NULL,
-  `Address` varchar(255) NOT NULL,
+  `Address` varchar(256) NOT NULL,
   `Phone` varchar(16) DEFAULT NULL,
   `IsAdmin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),

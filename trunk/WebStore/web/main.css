@@ -1,0 +1,142 @@
+body {
+	text-align: center;
+}
+
+/* Pre wrap source: http://users.tkk.fi/~tkarvine/pre-wrap-css3-mozilla-opera-ie.html */
+pre {
+	 white-space: pre-wrap;       /* css-3 */
+	 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+	 white-space: -pre-wrap;      /* Opera 4-6 */
+	 white-space: -o-pre-wrap;    /* Opera 7 */
+	 word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.sectionHeaderText{
+	font-weight: bold;
+	font-size: 24px;
+	margin-top: 0px;
+	padding-top: 5px;
+	padding-left: 5px;
+}
+.sectionHeader{
+	background-color: #e3e6e9;
+	height: 40px;
+	border: thin #b3b6b9 solid;
+	margin-bottom: 25px;
+	overflow: hidden;
+}
+.sectionHeaderError{
+	background-color: #e09090;
+	height: 40px;
+	border: thin #b06060 solid;
+	margin-bottom: 25px;
+}
+.header {
+	text-align: center;
+	font-size: 18px;
+	color: #b3b6b9;
+	max-width: 1000px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+}
+.content {
+	max-width: 1024px;
+	min-width: 600px;
+	text-align: left;
+	margin: auto;
+}
+
+div.comment {
+	background-color: #f0f0f0;
+	border: thin #b3b6b9 outset;
+	margin: 25px;
+}
+div.viewIdeasIdea {
+	background-color: #f0f0f0;
+	border: thin #b3b6b9 outset;
+	margin: 25px;
+}
+div.viewIdeasIdeaImplemented {
+	background-color: #c9cda6;
+	border: thin #5e5151 outset;
+	margin: 25px;
+}
+
+.comments {
+	min-width: 600px;
+	margin-top: 20px;
+}
+
+.commentHeader {
+	border-bottom: thin #b3b6b9 solid;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+.viewIdeasIdeaHeader {
+	border-bottom: thin #b3b6b9 solid;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+.commentBody {
+
+}
+.commentHeaderAuthor {
+	margin: 0;
+	padding-left: 15px;
+	font-size: 18px;
+	font-weight: bold;
+}
+.viewIdeasIdeaHeaderAuthor {
+	margin: 0;
+	padding-left: 15px;
+	font-size: 18px;
+}
+.commentHeaderData {
+	margin: 0;
+	padding-right: 15px;
+	font-weight: bold;
+	float: right;
+}
+.viewIdeasIdeaHeaderData{
+	margin: 0;
+	padding-right: 15px;
+	font-weight: bold;
+	float: right;
+}
+.commentBodyText {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+.idea {
+
+}
+.ideaBody {
+	padding-left: 25px;
+	padding-right: 25px;
+	padding-bottom: 25px;
+}
+.ideaBodyHeader{
+	font-size: 18px;
+	font-weight: bold;
+}
+.ideaVote{
+	text-align: center;
+	float: left;
+}
+.ideaVoteCount{
+	margin: 0;
+	width: 60px;
+	font-weight: bold;
+}
+.ideaVoteLink{
+	margin: 0;
+	padding-top: 17px;
+	padding-right: 10px;
+}
+.ideaHeaderExtra{
+	float: right;
+}
+.addComment{
+	margin: 25px;
+}

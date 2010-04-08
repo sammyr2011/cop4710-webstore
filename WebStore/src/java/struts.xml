@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="false" />
+
+<!--
+	Default namespace
+	Provides actions and results accessable by everyone
+-->
+	<package name="default" namespace="" extends="struts-default">
+		<default-action-ref name="login" />
+
+		<global-results>
+			<result name="login" type="redirect">/login</result>
+			<result name="unauthorized">/secure/unauthorized.jsp</result>
+		</global-results>
+
+		<action name="login" class="ws.actions.Login">
+			<result name="input">/login.jsp</result>
+			<result name="success" type="redirect">/secure/</result>
+			<result name="alreadyAuthenticated" type="redirect">/secure/</result>
+		</action>
+
+		<action name="logout" class="ws.actions.Logout">
+			<result type="redirect">/</result>
+			<result name="input" type="redirect">/home</result>
+		</action>
+	</package>
+
+<!--
+	Root namespace
+	Just provides a redirect so users have a place to go when they visit domain/project/
+-->
+	<package name="cimPublic" namespace="/" extends="default">
+		<action name="home" class="ws.actions.Home">
+			<result name="alreadyAuthenticated" type="redirect">/secure/</result>
+			<result name="input" type="redirect">login</result>
+		</action>
+	</package>
+
+<!--
+	Secure namespace
+	Base namespace for all user types, includes basic actions everyone can use
+-->
+	<package name="cimSecure" namespace="/secure" extends="default">
+
+		<interceptors>
+			<interceptor name="authenticationInterceptor" class="ws.utils.AuthenticationInterceptor" />
+			<interceptor-stack name="secureStack">
+				<interceptor-ref name="authenticationInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="secureStack" />
+
+		<global-results>
+			<result name="error">/secure/error.jsp</result>
+			<result name="input">/secure/error.jsp</result>
+		</global-results>
+
+		<action name="userHome" class="ws.actions.secure.UserHome">
+			<result>userHome.jsp</result>
+		</action>
+
+	</package>
+
+<!--
+	Secure/user namespace
+	Namespace for user types of accounts only. 
+-->
+	<package name="cimSecureUser" namespace="/secure/user" extends="cimSecure">
+		<interceptors>
+			<interceptor name="userAuthenticationInterceptor" class="ws.utils.UserAuthenticationInterceptor" />
+
+			<interceptor-stack name="secureUserStack">
+				<interceptor-ref name="userAuthenticationInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="secureUserStack" />
+
+		<action name="editAccount" class="ws.actions.secure.user.EditAccount">
+			<result>editAccountSuccess.jsp</result>
+			<result name="input">editAccount.jsp</result>
+		</action>
+	</package>
+
+<!--
+	Secure/admin namespace
+	Namespace for administrator account types. 
+-->
+	<package name="cimSecureAdmin" namespace="/secure/admin" extends="cimSecure">
+		<interceptors>
+			<interceptor name="adminAuthenticationInterceptor" class="ws.utils.AdminAuthenticationInterceptor" />
+
+			<interceptor-stack name="secureAdminStack">
+				<interceptor-ref name="adminAuthenticationInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="secureAdminStack" />
+
+		<action name="addUser" class="ws.actions.secure.admin.AddUser">
+			<result>addUser.jsp</result>
+			<result name="input">addUser.jsp</result>
+		</action>
+
+		<action name="viewUsers" class="ws.actions.secure.admin.ViewUsers">
+			<result>viewUsers.jsp</result>
+		</action>
+
+		<action name="editUser" class="ws.actions.secure.admin.EditUser">
+			<result>editUserSuccess.jsp</result>
+			<result name="input">editUser.jsp</result>
+		</action>
+
+	</package>
+</struts>

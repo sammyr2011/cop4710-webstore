@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 07, 2010 at 01:35 AM
+-- Generation Time: Apr 08, 2010 at 01:43 AM
 -- Server version: 5.1.45
 -- PHP Version: 5.3.0
 
@@ -21,6 +21,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `manufacturer` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(128) NOT NULL,
   `Website` varchar(128) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -104,6 +105,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 CREATE TABLE IF NOT EXISTS `users` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Username` varchar(32) NOT NULL,
+  `email` varchar(64) NOT NULL,
   `Password` varchar(32) NOT NULL,
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(32) NOT NULL,
@@ -112,9 +114,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `IsAdmin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `users`
 --
 
+INSERT INTO `users` (`ID`, `Username`, `email`, `Password`, `FirstName`, `LastName`, `Address`, `Phone`, `IsAdmin`) VALUES
+(1, 'test', 'test@example.org', 'cc03e747a6afbbcbf8be7668acfebee5', 'John', 'Doe', '123 example st', '123-456-7890', 0),
+(2, 'admin', 'admin@example.org', '0192023a7bbd73250516f069df18b500', 'first', 'last', '456 fake st', '098-765-4321', 1);

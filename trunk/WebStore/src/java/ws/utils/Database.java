@@ -86,7 +86,7 @@ public class Database
 	 */
 	public boolean addUser(String username, String email, String password, String firstName, String lastName, String phone, String address, Boolean admin)
 	{
-		String query = "INSERT INTO `webstore`.`users` (`ID`, `Username`, `email`, `Password`, `FirstName`, `LastName`, `Address`, `Phone`, `IsAdmin`) "
+		String query = "INSERT INTO `webstore`.`users` (`UserID`, `Username`, `email`, `Password`, `FirstName`, `LastName`, `Address`, `Phone`, `IsAdmin`) "
 				+ "VALUES ( NULL , '"
 				+ sanitize(username) + "', '"
 				+ sanitize(email) + "', '"
@@ -108,7 +108,7 @@ public class Database
 	 */
 	public Account getUser(int userId)
 	{
-		String query = "SELECT * FROM `users` WHERE `id` = " + userId + " LIMIT 1 ;";
+		String query = "SELECT * FROM `users` WHERE `UserId` = " + userId + " LIMIT 1 ;";
 
 		Vector<Account> fetchedUsers = (Vector<Account>) executeQuery(query, DataType.Account);
 
@@ -194,7 +194,7 @@ public class Database
 		//   I just want to get this done.
 		query.delete(query.length() - 2, query.length() + 1);
 
-		query.append("WHERE `id` = ");
+		query.append("WHERE `UserId` = ");
 		query.append(id);
 		query.append(" LIMIT 1 ;");
 
@@ -260,7 +260,7 @@ public class Database
 		switch (dataType)
 		{
 			case Account:
-				queryExistingData = "SELECT `id`, `username` FROM `users` WHERE (`username` = '" + sanitize((String) unique.get("username")) + "' ) LIMIT 1;";
+				queryExistingData = "SELECT `UserId`, `username` FROM `users` WHERE (`username` = '" + sanitize((String) unique.get("username")) + "' ) LIMIT 1;";
 				break;
 			default:
 				return null;
@@ -349,7 +349,7 @@ public class Database
 						{
 							fetchedAccount.add(
 									new Admin(
-									result.getInt("id"),
+									result.getInt("UserId"),
 									unsanatize(result.getString("userName")),
 									unsanatize(result.getString("email")),
 									unsanatize(result.getString("firstName")),
@@ -361,7 +361,7 @@ public class Database
 						{
 							fetchedAccount.add(
 									new User(
-									result.getInt("id"),
+									result.getInt("UserId"),
 									unsanatize(result.getString("userName")),
 									unsanatize(result.getString("email")),
 									unsanatize(result.getString("firstName")),

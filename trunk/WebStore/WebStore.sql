@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 08, 2010 at 01:43 AM
--- Server version: 5.1.45
+-- Generation Time: Apr 08, 2010 at 08:14 PM
+-- Server version: 5.1.44
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -20,11 +20,12 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `manufacturer` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(128) NOT NULL,
+  `mID` int(11) NOT NULL AUTO_INCREMENT,
   `Website` varchar(128) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `CompanyName` varchar(128) NOT NULL,
+  PRIMARY KEY (`mID`),
+  UNIQUE KEY `mID` (`mID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `manufacturer`
@@ -38,15 +39,16 @@ CREATE TABLE IF NOT EXISTS `manufacturer` (
 --
 
 CREATE TABLE IF NOT EXISTS `product` (
-  `ID` int(11) NOT NULL,
+  `ProductID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` int(11) NOT NULL,
-  `ManufactuererID` int(11) NOT NULL,
+  `ManufacturerID` int(11) NOT NULL,
   `Price` double NOT NULL,
   `Stock` int(11) NOT NULL DEFAULT '0',
   `Image` varchar(32) NOT NULL DEFAULT 'missing.jpg',
   `Description` text NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`ProductID`),
+  KEY `ManufacturerID` (`ManufacturerID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `product`
@@ -60,15 +62,17 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 CREATE TABLE IF NOT EXISTS `purchases` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `PurchaseID` int(11) NOT NULL AUTO_INCREMENT,
   `UserID` int(11) NOT NULL,
   `ProductID` int(11) NOT NULL,
   `Price` double NOT NULL,
   `ShippingAddress` varchar(256) NOT NULL,
-  `Date` date NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `UserID` (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ShippingPrice` double NOT NULL,
+  PRIMARY KEY (`PurchaseID`),
+  KEY `UserID` (`UserID`),
+  KEY `ProductID` (`ProductID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `purchases`
@@ -82,14 +86,15 @@ CREATE TABLE IF NOT EXISTS `purchases` (
 --
 
 CREATE TABLE IF NOT EXISTS `reviews` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ReviewID` int(11) NOT NULL AUTO_INCREMENT,
   `UserID` int(11) NOT NULL,
   `ProductID` int(11) NOT NULL,
   `Rating` tinyint(4) NOT NULL,
   `Comment` text NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `ProductID` (`ProductID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`ReviewID`),
+  KEY `ProductID` (`ProductID`),
+  KEY `UserID` (`UserID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `reviews`
@@ -103,23 +108,44 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `UserID` int(11) NOT NULL AUTO_INCREMENT,
   `Username` varchar(32) NOT NULL,
-  `email` varchar(64) NOT NULL,
   `Password` varchar(32) NOT NULL,
+  `Email` varchar(64) NOT NULL,
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(32) NOT NULL,
   `Address` varchar(256) NOT NULL,
-  `Phone` varchar(16) DEFAULT NULL,
+  `Phone` varchar(16) NOT NULL,
   `IsAdmin` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`UserID`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`ID`, `Username`, `email`, `Password`, `FirstName`, `LastName`, `Address`, `Phone`, `IsAdmin`) VALUES
-(1, 'test', 'test@example.org', 'cc03e747a6afbbcbf8be7668acfebee5', 'John', 'Doe', '123 example st', '123-456-7890', 0),
-(2, 'admin', 'admin@example.org', '0192023a7bbd73250516f069df18b500', 'first', 'last', '456 fake st', '098-765-4321', 1);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `product`
+--
+ALTER TABLE `product`
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`ManufacturerID`) REFERENCES `manufacturer` (`mID`);
+
+--
+-- Constraints for table `purchases`
+--
+ALTER TABLE `purchases`
+  ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`),
+  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
+
+--
+-- Constraints for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`),
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);

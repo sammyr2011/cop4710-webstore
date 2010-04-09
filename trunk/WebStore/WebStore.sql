@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `manufacturer` (
 
 CREATE TABLE IF NOT EXISTS `product` (
   `ProductID` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` int(11) NOT NULL,
+  `Name` varchar(64) NOT NULL,
   `ManufacturerID` int(11) NOT NULL,
   `Price` double NOT NULL,
   `Stock` int(11) NOT NULL DEFAULT '0',

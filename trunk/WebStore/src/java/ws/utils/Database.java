@@ -36,10 +36,11 @@ public class Database
 	 */
 	private enum DataType
 	{
-		/**
-		 * Account data
-		 */
 		Account,
+		Product,
+		Manufacturer,
+		Review,
+		Transaction
 	}
 
 	/**
@@ -84,7 +85,8 @@ public class Database
 	 */
 	public boolean addUser(String username, String email, String password, String firstName, String lastName, String phone, String address, Boolean admin)
 	{
-		String query = "INSERT INTO `webstore`.`users` (`UserID`, `Username`, `email`, `Password`, `FirstName`, `LastName`, `Address`, `Phone`, `IsAdmin`) "
+		// TODO: Might look better with String.format? It's a mess right now
+		String query = "INSERT INTO `webstore`.`users` ( `UserID`, `Username`, `email`, `Password`, `FirstName`, `LastName`, `Address`, `Phone`, `IsAdmin` ) "
 				+ "VALUES ( NULL , '"
 				+ Utils.sanitize(username) + "', '"
 				+ Utils.sanitize(email) + "', '"
@@ -94,6 +96,96 @@ public class Database
 				+ Utils.sanitize(address) + "', '"
 				+ Utils.sanitize(phone) + "', '"
 				+ (admin ? 1 : 0) + "');";
+
+		System.out.println("Executing: " + query.toString());
+		return executeQueryUpdate(query);
+	}
+
+	/**
+	 * Adds a new product to the database
+	 * @param name - Name of the product
+	 * @param manufacturerId - ID of the product's manufacturer
+	 * @param price - Price of the product
+	 * @param stock - Amount of the product in stock
+	 * @param image - Filename of the product image
+	 * @param description - Description of the product
+	 * @return True on success
+	 */
+	public boolean addProduct(String name, int manufacturerId, double price, int stock, String image, String description)
+	{
+		// TODO: Check manufacturer id to see if it exists?
+		String query = "INSERT INTO `webstore`.`product` ( `ProductID`, `Name`, `ManufacturerID`, `Price`, `Stock`, `Image`, `Description` ) "
+				+ "VALUES ( NULL , '"
+				+ Utils.sanitize(name) + "', '"
+				+ manufacturerId + "', '"
+				+ price + "', '"
+				+ stock + "', '"
+				+ Utils.sanitize(image) + "', '"
+				+ Utils.sanitize(description) + "');";
+
+		System.out.println("Executing: " + query.toString());
+		return executeQueryUpdate(query);
+	}
+
+	/**
+	 * Adds a new manufacturer to the database
+	 * @param name - Name of the manufacturer
+	 * @param website - Manufacturer's website
+	 * @return True on success
+	 */
+	public boolean addManufacturer(String name, String website)
+	{
+		String query = "INSERT INTO `webstore`.`manufacturer` ( `mID`, `Website`, `CompanyName` ) "
+				+ "VALUES ( NULL , '"
+				+ Utils.sanitize(website) + "', '"
+				+ Utils.sanitize(name) + "');";
+
+		System.out.println("Executing: " + query.toString());
+		return executeQueryUpdate(query);
+	}
+
+	/**
+	 * Adds a new review to the database
+	 * @param userId - Unique ID of user making the review
+	 * @param productId - Unique ID of product reviewed
+	 * @param rating - User rating
+	 * @param comment - Review text
+	 * @return True on success
+	 */
+	public boolean addReview(int userId, int productId, int rating, String comment)
+	{
+		// TODO: Check product id to see if it exists?
+		// TODO: Check user id to see if it exists?
+		// TODO: Check rating to see if it's within range? [1..10]?
+		String query = "INSERT INTO `webstore`.`reviews` ( `ReviewID`, `UserID`, `ProductID`, `Rating`, `Comment` ) "
+				+ "VALUES ( NULL , '"
+				+ productId + "', '"
+				+ rating + "', '"
+				+ Utils.sanitize(comment) + "');";
+
+		System.out.println("Executing: " + query.toString());
+		return executeQueryUpdate(query);
+	}
+
+	/**
+	 * Adds a new transaction report to the database
+	 * @param userId - Unique ID of user making the purchase
+	 * @param productId - Unique ID of product purchased
+	 * @param price - Price of product at time of transaction
+	 * @param shippingPrice - Shipping price
+	 * @param shippingAddress - Shipping address
+	 * @return True on success
+	 */
+	public boolean addTransaction(int userId, int productId, double price, double shippingPrice, String shippingAddress)
+	{
+		// TODO: Check user id to see if it exists?
+		// TODO: Check product id to see if it exists?
+		String query = "INSERT INTO `webstore`.`purchases` ( `PurchaseID`, `UserID`, `ProductID`, `Price`, `ShippingAddress`, `Date`, `ShippingPrice` )"
+				+ "VALUES ( NULL , '"
+				+ productId + "', '"
+				+ price + "', '"
+				+ shippingPrice + "', '"
+				+ Utils.sanitize(shippingAddress) + "');";
 
 		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query);
@@ -139,6 +231,82 @@ public class Database
 	}
 
 	/**
+	 * Returns the product with specified ID
+	 * @param id - Unique product id to get
+	 * @return null on failure, product on success
+	 */
+	public Product getProduct(int id)
+	{
+		String query = "SELECT * FROM `products` WHERE `ProductId` = '" + id + "' LIMIT 1 ;";
+
+		Vector<Product> fetchedData = (Vector<Product>) executeQuery(query, DataType.Product);
+
+		if (fetchedData.size() != 1)
+		{
+			return null;
+		}
+
+		return fetchedData.get(0);
+	}
+
+	/**
+	 * Returns the manufacturer with specified ID
+	 * @param id - Unique ID of manufacturer to get
+	 * @return null on failure, product on success
+	 */
+	public Manufacturer getManufacturer(int id)
+	{
+		String query = "SELECT * FROM `manufacturer` WHERE `mId` = '" + id + "' LIMIT 1 ;";
+
+		Vector<Manufacturer> fetchedData = (Vector<Manufacturer>) executeQuery(query, DataType.Manufacturer);
+
+		if (fetchedData.size() != 1)
+		{
+			return null;
+		}
+
+		return fetchedData.get(0);
+	}
+
+	/**
+	 * Returns the review with specified ID
+	 * @param id - Unique ID of review to get
+	 * @return null on failure, Review on success
+	 */
+	public Review getReview(int id)
+	{
+		String query = "SELECT * FROM `reviews` WHERE `ReviewId` = '" + id + "' LIMIT 1 ;";
+
+		Vector<Review> fetchedData = (Vector<Review>) executeQuery(query, DataType.Review);
+
+		if (fetchedData.size() != 1)
+		{
+			return null;
+		}
+
+		return fetchedData.get(0);
+	}
+
+	/**
+	 * Returns the transaction with specified ID
+	 * @param id - Unique ID of transaction to get
+	 * @return null on failure, Transaction on success
+	 */
+	public Transaction getTransaction(int id)
+	{
+		String query = "SELECT * FROM `transactions` WHERE `TransactionId` = '" + id + "' LIMIT 1 ;";
+
+		Vector<Transaction> fetchedData = (Vector<Transaction>) executeQuery(query, DataType.Transaction);
+
+		if (fetchedData.size() != 1)
+		{
+			return null;
+		}
+
+		return fetchedData.get(0);
+	}
+
+	/**
 	 * Edits user information. Fields may be null or empty if change is not desired.
 	 * @param id - Unique user ID
 	 * @param userName - Username
@@ -156,7 +324,6 @@ public class Database
 		StringBuilder query = new StringBuilder();
 
 		query.append("UPDATE `users` SET   ");
-
 
 		if (!StringUtils.isEmpty(userName))
 		{
@@ -195,10 +362,173 @@ public class Database
 		// Just to remove the trailing comma. There are much better ways of going about this, but
 		//   I just want to get this done.
 		query.delete(query.length() - 2, query.length() + 1);
+		query.append(String.format("WHERE `UserId` = %d LIMIT 1", id));
 
-		query.append("WHERE `UserId` = ");
-		query.append(id);
-		query.append(" LIMIT 1 ;");
+		System.out.println("Executing: " + query.toString());
+		return executeQueryUpdate(query.toString());
+	}
+
+	/**
+	 * Adds a new product to the database
+	 * @param id - ID of product to edit
+	 * @param name - Name of the product
+	 * @param manufacturerId - ID of the product's manufacturer
+	 * @param price - Price of the product
+	 * @param stock - Amount of the product in stock
+	 * @param image - Filename of the product image
+	 * @param description - Description of the product
+	 * @return true on success
+	 */
+	public boolean editProduct(int id, String name, Integer manufacturerId, Double price, Integer stock, String image, String description)
+	{
+		StringBuilder query = new StringBuilder();
+
+		query.append("UPDATE `product` SET ");
+
+		if (StringUtils.isNotEmpty(name))
+		{
+			query.append(String.format("`%s` = '%s', ", "name", Utils.sanitize(name)));
+		}
+		if (manufacturerId != null)
+		{
+			query.append(String.format("`%s` = '%d', ", "ManufacturerId", manufacturerId));
+		}
+		if (price != null)
+		{
+			query.append(String.format("`%s` = '%f', ", "price", price));
+		}
+		if (stock != null)
+		{
+			query.append(String.format("`%s` = '%d', ", "stock", stock));
+		}
+		if (image != null)
+		{
+			query.append(String.format("`%s` = '%s', ", "image", Utils.sanitize(image)));
+		}
+		if (description != null)
+		{
+			query.append(String.format("`%s` = '%s', ", "description", Utils.sanitize(description)));
+		}
+
+		// Just to remove the trailing comma. There are much better ways of going about this, but
+		//   I just want to get this done.
+		query.delete(query.length() - 2, query.length() + 1);
+		query.append(String.format("WHERE `ProductId` = %d LIMIT 1", id));
+
+		System.out.println("Executing: " + query.toString());
+		return executeQueryUpdate(query.toString());
+	}
+
+	/**
+	 * Adds a new manufacturer to the database
+	 * @param id - ID of manufacturer to edit
+	 * @param name - Name of the manufacturer
+	 * @param website - Manufacturer's website
+	 * @return true on success
+	 */
+	public boolean editManufacturer(int id, String name, String website)
+	{
+		StringBuilder query = new StringBuilder();
+
+		query.append("UPDATE `manufacturer` SET ");
+
+		if (StringUtils.isNotEmpty(name))
+		{
+			query.append(String.format("`%s` = '%s', ", "name", Utils.sanitize(name)));
+		}
+		if (website != null)
+		{
+			query.append(String.format("`%s` = '%s', ", "website", Utils.sanitize(website)));
+		}
+
+		// Just to remove the trailing comma. There are much better ways of going about this, but
+		//   I just want to get this done.
+		query.delete(query.length() - 2, query.length() + 1);
+		query.append(String.format("WHERE `mId` = %d LIMIT 1", id));
+
+		System.out.println("Executing: " + query.toString());
+		return executeQueryUpdate(query.toString());
+	}
+
+	/**
+	 * Adds a new review to the database
+	 * @param id - ID of review to edit
+	 * @param userId - Unique ID of user making the review
+	 * @param productId - Unique ID of product reviewed
+	 * @param rating - User rating
+	 * @param comment - Review text
+	 * @return true on success
+	 */
+	public boolean editReview(int id, Integer userId, Integer productId, Integer rating, String comment)
+	{
+		StringBuilder query = new StringBuilder();
+
+		query.append("UPDATE `review` SET ");
+
+		if (userId != null)
+		{
+			query.append(String.format("`%s` = '%d', ", "userId", userId));
+		}
+		if (productId != null)
+		{
+			query.append(String.format("`%s` = '%d', ", "productId", productId));
+		}
+		if (StringUtils.isNotEmpty(comment))
+		{
+			query.append(String.format("`%s` = '%s', ", "comment", Utils.sanitize(comment)));
+		}
+
+		// Just to remove the trailing comma. There are much better ways of going about this, but
+		//   I just want to get this done.
+		query.delete(query.length() - 2, query.length() + 1);
+		query.append(String.format("WHERE `ReviewId` = %d LIMIT 1", id));
+
+		System.out.println("Executing: " + query.toString());
+		return executeQueryUpdate(query.toString());
+	}
+
+	/**
+	 * Adds a new transaction report to the database
+	 * @param id - Unique transaction ID
+	 * @param userId - Unique ID of user making the purchase
+	 * @param productId - Unique ID of product purchased
+	 * @param price - Price of product at time of transaction
+	 * @param shippingPrice - Shipping price
+	 * @param shippingAddress - Shipping address
+	 * @return true on success
+	 */
+	public boolean editTransaction(int id, Integer userId, Integer productId, Double price, Double shippingPrice, String shippingAddress)
+	{
+		StringBuilder query = new StringBuilder();
+
+		query.append("UPDATE `purchases` SET ");
+
+		if (userId != null)
+		{
+			query.append(String.format("`%s` = '%d', ", "userId", userId));
+		}
+		if (productId != null)
+		{
+			query.append(String.format("`%s` = '%d', ", "productId", productId));
+		}
+		if (price != null)
+		{
+			query.append(String.format("`%s` = '%f', ", "price", price));
+		}
+		if (shippingPrice != null)
+		{
+			query.append(String.format("`%s` = '%f', ", "shippingPrice", shippingPrice));
+		}
+		if (shippingAddress != null)
+		{
+			query.append(String.format("`%s` = '%s', ", "shippingAddress", Utils.sanitize(shippingAddress)));
+		}
+
+		// Just to remove the trailing comma. There are much better ways of going about this, but
+		//   I just want to get this done.
+		query.delete(query.length() - 2, query.length() + 1);
+
+		query.append(String.format("WHERE `purchases` = '%d' LIMIT 1", id));
 
 		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query.toString());
@@ -213,6 +543,98 @@ public class Database
 		String query = "SELECT * FROM `users`";
 
 		return (Vector<Account>) executeQuery(query, DataType.Account);
+	}
+
+	/**
+	 * Returns a list containing all products in the database
+	 * @return List of all product
+	 */
+	public Vector<Product> getProducts()
+	{
+		String query = "SELECT * FROM `products`";
+
+		return (Vector<Product>) executeQuery(query, DataType.Product);
+	}
+
+	/**
+	 * Returns a list containing all products in the database with specified manufacturer ID
+	 * @param manufacturerId - ID of manufacturer
+	 * @return List of all product with specified manufacturer
+	 */
+	public Vector<Product> getProducts(int manufacturerId)
+	{
+		String query = String.format("SELECT * FROM `products` WHERE `manufacturerId` = '%d'", manufacturerId);
+
+		return (Vector<Product>) executeQuery(query, DataType.Product);
+	}
+
+	/**
+	 * Returns a list of products containing specified string
+	 * @param searchString - String to search for in description in name of products
+	 * @return List of products contining specified string
+	 */
+	public Vector<Product> getProducts(String searchString)
+	{
+		String query = String.format("SELECT * FROM `products` WHERE `description` LIKE '%%%d%%' OR `name` LIKE '%%%s%%'", searchString, searchString);
+
+		return (Vector<Product>) executeQuery(query, DataType.Product);
+	}
+
+	/**
+	 * Returns a list containing all manufacturers in the database
+	 * @return List of all manufacturers
+	 */
+	public Vector<Manufacturer> getManufacturers()
+	{
+		String query = "SELECT * FROM `Manufacturer`";
+
+		return (Vector<Manufacturer>) executeQuery(query, DataType.Manufacturer);
+	}
+
+	/**
+	 * Returns a list containing all reviews in the database
+	 * @return List of all reviews
+	 */
+	public Vector<Review> getReviews()
+	{
+		String query = "SELECT * FROM `review`";
+
+		return (Vector<Review>) executeQuery(query, DataType.Review);
+	}
+
+	/**
+	 * Returns a list containing all reviews of specified product
+	 * @param productId - ID of product
+	 * @return List of reviews for specified product
+	 */
+	public Vector<Review> getReviews(int productId)
+	{
+		String query = String.format("SELECT * FROM `review` WHERE `ProductId` = '%d'", productId);
+
+		return (Vector<Review>) executeQuery(query, DataType.Review);
+	}
+
+	/**
+	 * Returns a list containing all transactions in the database
+	 * @return List of all transactions
+	 */
+	public Vector<Transaction> getTransactions()
+	{
+		String query = "SELECT * FROM `purchases`";
+
+		return (Vector<Transaction>) executeQuery(query, DataType.Transaction);
+	}
+
+	/**
+	 * Returns a list containing all transactions of a specified user
+	 * @param userId - ID of user
+	 * @return List of all transactions of user
+	 */
+	public Vector<Transaction> getTransactions(int userId)
+	{
+		String query = String.format("SELECT * FROM `purchases` WHERE `UserId` = '%d'", userId);
+
+		return (Vector<Transaction>) executeQuery(query, DataType.Transaction);
 	}
 
 	/**
@@ -277,6 +699,15 @@ public class Database
 		return null;
 	}
 
+	private boolean checkForExistingRow(int id, String tableName, String attributeName)
+	{
+		String query = String.format("SELECT 1 FROM `%s` WHERE (`%s` = '%d' ) LIMIT 1;", tableName, attributeName, id);
+
+		Integer existingId = executeQuerySingleResultInt(query);
+
+		return existingId != null;
+	}
+
 	/**
 	 * Executes a single query string and returns the first result as an Integer
 	 * @param query - SQL Query to execute
@@ -322,7 +753,13 @@ public class Database
 	 */
 	private Vector<?> executeQuery(String query, DataType dataType)
 	{
+		// TODO: ? Break this function down or get rid of it, it's a horrible mess
 		Vector<Account> fetchedAccount = null;
+		Vector<Product> fetchedProduct = null;
+		Vector<Manufacturer> fetchedManufacturer = null;
+		Vector<Review> fetchedReview = null;
+		Vector<Transaction> fetchedTransaction = null;
+
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -332,6 +769,18 @@ public class Database
 		{
 			case Account:
 				fetchedAccount = new Vector<Account>();
+				break;
+			case Product:
+				fetchedProduct = new Vector<Product>();
+				break;
+			case Manufacturer:
+				fetchedManufacturer = new Vector<Manufacturer>();
+				break;
+			case Review:
+				fetchedReview = new Vector<Review>();
+				break;
+			case Transaction:
+				fetchedTransaction = new Vector<Transaction>();
 				break;
 		}
 
@@ -371,6 +820,44 @@ public class Database
 									Utils.unsanatize(result.getString("phone")),
 									Utils.unsanatize(result.getString("address"))));
 						}
+						break;
+					case Product:
+						fetchedProduct.add(
+								new Product(
+								result.getInt("ProductId"),
+								Utils.unsanatize(result.getString("name")),
+								result.getInt("ManufacturerID"),
+								result.getDouble("price"),
+								result.getInt("stock"),
+								Utils.unsanatize(result.getString("image")),
+								Utils.unsanatize(result.getString("description"))));
+						break;
+					case Manufacturer:
+						fetchedManufacturer.add(
+								new Manufacturer(
+								result.getInt("mId"),
+								Utils.unsanatize(result.getString("Website")),
+								Utils.unsanatize(result.getString("Name"))));
+						break;
+					case Review:
+						fetchedReview.add(
+								new Review(
+								result.getInt("ReviewId"),
+								result.getInt("UserId"),
+								result.getInt("ProductId"),
+								result.getInt("Rating"),
+								Utils.unsanatize(result.getString("Comment"))));
+						break;
+					case Transaction:
+						fetchedTransaction.add(
+								new Transaction(
+								result.getInt("PurchaseId"),
+								result.getInt("UserId"),
+								result.getInt("ProductId"),
+								result.getDouble("Price"),
+								result.getDouble("ShippingPrice"),
+								Utils.unsanatize(result.getString("ShippingAddress")),
+								result.getTimestamp("date")));
 						break;
 				}
 			}

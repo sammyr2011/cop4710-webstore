@@ -143,7 +143,7 @@ public class Product
 	 */
 	public String getImage()
 	{
-		return image;
+		return Constants.PRODUCT_IMAGE_PATH + image;
 	}
 
 	/**

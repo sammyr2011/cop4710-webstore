@@ -237,7 +237,7 @@ public class Database
 	 */
 	public Product getProduct(int id)
 	{
-		String query = "SELECT * FROM `products` WHERE `ProductId` = '" + id + "' LIMIT 1 ;";
+		String query = "SELECT * FROM `product` WHERE `ProductId` = '" + id + "' LIMIT 1 ;";
 
 		Vector<Product> fetchedData = (Vector<Product>) executeQuery(query, DataType.Product);
 
@@ -463,7 +463,7 @@ public class Database
 	{
 		StringBuilder query = new StringBuilder();
 
-		query.append("UPDATE `review` SET ");
+		query.append("UPDATE `reviews` SET ");
 
 		if (userId != null)
 		{
@@ -551,7 +551,7 @@ public class Database
 	 */
 	public Vector<Product> getProducts()
 	{
-		String query = "SELECT * FROM `products`";
+		String query = "SELECT * FROM `product`";
 
 		return (Vector<Product>) executeQuery(query, DataType.Product);
 	}
@@ -563,7 +563,7 @@ public class Database
 	 */
 	public Vector<Product> getProducts(int manufacturerId)
 	{
-		String query = String.format("SELECT * FROM `products` WHERE `manufacturerId` = '%d'", manufacturerId);
+		String query = String.format("SELECT * FROM `product` WHERE `manufacturerId` = '%d'", manufacturerId);
 
 		return (Vector<Product>) executeQuery(query, DataType.Product);
 	}
@@ -575,7 +575,7 @@ public class Database
 	 */
 	public Vector<Product> getProducts(String searchString)
 	{
-		String query = String.format("SELECT * FROM `products` WHERE `description` LIKE '%%%d%%' OR `name` LIKE '%%%s%%'", searchString, searchString);
+		String query = String.format("SELECT * FROM `product` WHERE `description` LIKE '%%%d%%' OR `name` LIKE '%%%s%%'", searchString, searchString);
 
 		return (Vector<Product>) executeQuery(query, DataType.Product);
 	}
@@ -597,7 +597,7 @@ public class Database
 	 */
 	public Vector<Review> getReviews()
 	{
-		String query = "SELECT * FROM `review`";
+		String query = "SELECT * FROM `reviews`";
 
 		return (Vector<Review>) executeQuery(query, DataType.Review);
 	}
@@ -609,7 +609,7 @@ public class Database
 	 */
 	public Vector<Review> getReviews(int productId)
 	{
-		String query = String.format("SELECT * FROM `review` WHERE `ProductId` = '%d'", productId);
+		String query = String.format("SELECT * FROM `reviews` WHERE `ProductId` = '%d'", productId);
 
 		return (Vector<Review>) executeQuery(query, DataType.Review);
 	}

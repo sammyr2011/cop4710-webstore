@@ -17,7 +17,7 @@ public class Product
 	/**
 	 * ID of the product's manufacturer
 	 */
-	private String manufacturerId;
+	private int manufacturerId;
 	/**
 	 * Price of the product
 	 */
@@ -45,7 +45,7 @@ public class Product
 	 * @param image - Filename of the product image
 	 * @param description - Description of the product
 	 */
-	public Product(int id, String name, String manufacturerId, double price, int stock, String image, String description)
+	public Product(int id, String name, int manufacturerId, double price, int stock, String image, String description)
 	{
 		this.id = id;
 		this.name = name;
@@ -87,7 +87,7 @@ public class Product
 	 * ID of the product's manufacturer
 	 * @return the manufacturerId
 	 */
-	public String getManufacturerId()
+	public int getManufacturerId()
 	{
 		return manufacturerId;
 	}
@@ -96,7 +96,7 @@ public class Product
 	 * ID of the product's manufacturer
 	 * @param manufacturerId the manufacturerId to set
 	 */
-	public void setManufacturerId(String manufacturerId)
+	public void setManufacturerId(int manufacturerId)
 	{
 		this.manufacturerId = manufacturerId;
 	}

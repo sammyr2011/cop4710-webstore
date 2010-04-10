@@ -165,13 +165,4 @@ public class Transaction
 	{
 		return date;
 	}
-
-	/**
-	 * Date of transaction
-	 * @param date the date to set
-	 */
-	public void setDate(Timestamp date)
-	{
-		this.date = date;
-	}
 }

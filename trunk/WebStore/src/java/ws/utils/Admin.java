@@ -13,6 +13,8 @@ public class Admin extends Account
 	 * @param email - E-mail address
 	 * @param firstName - First name
 	 * @param lastName - Last name
+	 * @param phone - Phone number
+	 * @param address - Address
 	 */
 	public Admin(int id, String userName, String email, String firstName, String lastName, String phone, String address)
 	{

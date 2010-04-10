@@ -8,7 +8,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>User Home</title>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/"/>main.css">
+		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
     </head>
     <body>
 		<div class="content">

@@ -28,6 +28,11 @@
 			<result type="redirect">/</result>
 			<result name="input" type="redirect">/home</result>
 		</action>
+
+		<action name="newAccount" class="ws.actions.NewAccount">
+			<result type="redirect">/secure/</result>
+			<result name="input">newAccount.jsp</result>
+		</action>
 	</package>
 
 <!--

@@ -16,7 +16,7 @@
 		</s:else>
   -->
 
-		<link rel="stylesheet" type="text/css" href="<s:url value="/"/>main.css">
+		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
     </head>
     <body>
 		<div class="content">

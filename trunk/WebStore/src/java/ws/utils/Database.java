@@ -1,10 +1,5 @@
 package ws.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,6 +10,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang.xwork.StringUtils;
 
 /**
  * Primary data object for project.
@@ -81,6 +77,8 @@ public class Database
 	 * @param password - Password of the user to add
 	 * @param firstName - First name of the user to add
 	 * @param lastName - Last name of the user to add
+	 * @param phone - Phone number of the user to add
+	 * @param address - Address of the user to add
 	 * @param admin - Flag to determine if the user is an administrator
 	 * @return True on success, false on failure
 	 */
@@ -88,13 +86,13 @@ public class Database
 	{
 		String query = "INSERT INTO `webstore`.`users` (`UserID`, `Username`, `email`, `Password`, `FirstName`, `LastName`, `Address`, `Phone`, `IsAdmin`) "
 				+ "VALUES ( NULL , '"
-				+ sanitize(username) + "', '"
-				+ sanitize(email) + "', '"
-				+ hash(sanitize(password)) + "', '"
-				+ sanitize(firstName) + "', '"
-				+ sanitize(lastName) + "', '"
-				+ sanitize(address) + "', '"
-				+ sanitize(phone) + "', '"
+				+ Utils.sanitize(username) + "', '"
+				+ Utils.sanitize(email) + "', '"
+				+ Utils.hash(password) + "', '"
+				+ Utils.sanitize(firstName) + "', '"
+				+ Utils.sanitize(lastName) + "', '"
+				+ Utils.sanitize(address) + "', '"
+				+ Utils.sanitize(phone) + "', '"
 				+ (admin ? 1 : 0) + "');";
 
 		System.out.println("Executing: " + query.toString());
@@ -128,7 +126,7 @@ public class Database
 	 */
 	public Account getUser(String userName, String password)
 	{
-		String query = "SELECT * FROM `users` WHERE `userName` = '" + sanitize(userName) + "' AND `password` = '" + hash(sanitize(password)) + "' LIMIT 1 ;";
+		String query = "SELECT * FROM `users` WHERE `userName` = '" + Utils.sanitize(userName) + "' AND `password` = '" + Utils.hash(password) + "' LIMIT 1 ;";
 
 		Vector<Account> fetchedUsers = (Vector<Account>) executeQuery(query, DataType.Account);
 
@@ -147,6 +145,8 @@ public class Database
 	 * @param email - E-mail address
 	 * @param firstName - First name
 	 * @param lastName - Last name
+	 * @param phone - Phone number ( May be blank )
+	 * @param address - Address
 	 * @param admin - Flag to determine if the user is an administrator
 	 * @param password - New user password
 	 * @return True on success, false on failure
@@ -157,37 +157,39 @@ public class Database
 
 		query.append("UPDATE `users` SET   ");
 
-		if (userName != null && userName.length() > 0)
+
+		if (!StringUtils.isEmpty(userName))
 		{
-			query.append(String.format("`%s` = '%s', ", "username", sanitize(userName)));
+			query.append(String.format("`%s` = '%s', ", "username", Utils.sanitize(userName)));
 		}
-		if (email != null && email.length() > 0)
+		if (!StringUtils.isEmpty(email))
 		{
-			query.append(String.format("`%s` = '%s', ", "email", sanitize(email)));
+			query.append(String.format("`%s` = '%s', ", "email", Utils.sanitize(email)));
 		}
-		if (firstName != null && firstName.length() > 0)
+		if (!StringUtils.isEmpty(firstName))
 		{
-			query.append(String.format("`%s` = '%s', ", "firstName", sanitize(firstName)));
+			query.append(String.format("`%s` = '%s', ", "firstName", Utils.sanitize(firstName)));
 		}
-		if (lastName != null && lastName.length() > 0)
+		if (!StringUtils.isEmpty(lastName))
 		{
-			query.append(String.format("`%s` = '%s', ", "lastName", sanitize(lastName)));
+			query.append(String.format("`%s` = '%s', ", "lastName", Utils.sanitize(lastName)));
 		}
-		if (phone != null && phone.length() > 0)
+		// Empty string is valid for phone number, but if it's null don't modify it
+		if (phone != null)
 		{
-			query.append(String.format("`%s` = '%s', ", "phone", sanitize(phone)));
+			query.append(String.format("`%s` = '%s', ", "phone", Utils.sanitize(phone)));
 		}
-		if (address != null && address.length() > 0)
+		if (!StringUtils.isEmpty(address))
 		{
-			query.append(String.format("`%s` = '%s', ", "address", sanitize(address)));
+			query.append(String.format("`%s` = '%s', ", "address", Utils.sanitize(address)));
 		}
 		if (admin != null)
 		{
 			query.append(String.format("`%s` = '%s', ", "isadmin", admin ? "1" : "0"));
 		}
-		if (password != null && password.length() > 0)
+		if (!StringUtils.isEmpty(password))
 		{
-			query.append(String.format("`%s` = '%s', ", "password", hash(sanitize(password))));
+			query.append(String.format("`%s` = '%s', ", "password", Utils.hash(password)));
 		}
 
 		// Just to remove the trailing comma. There are much better ways of going about this, but
@@ -260,7 +262,7 @@ public class Database
 		switch (dataType)
 		{
 			case Account:
-				queryExistingData = "SELECT `UserId`, `username` FROM `users` WHERE (`username` = '" + sanitize((String) unique.get("username")) + "' ) LIMIT 1;";
+				queryExistingData = "SELECT `UserId`, `username` FROM `users` WHERE (`username` = '" + Utils.sanitize((String) unique.get("username")) + "' ) LIMIT 1;";
 				break;
 			default:
 				return null;
@@ -350,24 +352,24 @@ public class Database
 							fetchedAccount.add(
 									new Admin(
 									result.getInt("UserId"),
-									unsanatize(result.getString("userName")),
-									unsanatize(result.getString("email")),
-									unsanatize(result.getString("firstName")),
-									unsanatize(result.getString("lastName")),
-									unsanatize(result.getString("phone")),
-									unsanatize(result.getString("address"))));
+									Utils.unsanatize(result.getString("userName")),
+									Utils.unsanatize(result.getString("email")),
+									Utils.unsanatize(result.getString("firstName")),
+									Utils.unsanatize(result.getString("lastName")),
+									Utils.unsanatize(result.getString("phone")),
+									Utils.unsanatize(result.getString("address"))));
 						}
 						else
 						{
 							fetchedAccount.add(
 									new User(
 									result.getInt("UserId"),
-									unsanatize(result.getString("userName")),
-									unsanatize(result.getString("email")),
-									unsanatize(result.getString("firstName")),
-									unsanatize(result.getString("lastName")),
-									unsanatize(result.getString("phone")),
-									unsanatize(result.getString("address"))));
+									Utils.unsanatize(result.getString("userName")),
+									Utils.unsanatize(result.getString("email")),
+									Utils.unsanatize(result.getString("firstName")),
+									Utils.unsanatize(result.getString("lastName")),
+									Utils.unsanatize(result.getString("phone")),
+									Utils.unsanatize(result.getString("address"))));
 						}
 						break;
 				}
@@ -390,82 +392,6 @@ public class Database
 		}
 
 		return new Vector<Object>();
-	}
-
-	/**
-	 * Sanitizes a string for storing. Encodes all non alphanumeric characters
-	 * @param input - String to be sanitized
-	 * @return Sanitized string
-	 */
-	private String unsanatize(String input)
-	{
-		try
-		{
-			return URLDecoder.decode(input, "UTF-8");
-		}
-		catch (UnsupportedEncodingException ex)
-		{
-			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, "Unable to encode string", ex);
-			return "ERROR";
-		}
-	}
-
-	/**
-	 * Unsanitizes a string. Decodes all non alphanumeric characters into their normal format
-	 * @param input - String to be unsanitized
-	 * @return unsanitized string
-	 */
-	private String sanitize(String input)
-	{
-		try
-		{
-			return URLEncoder.encode(input, "UTF-8");
-		}
-		catch (UnsupportedEncodingException ex)
-		{
-			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, "Unable to encode string", ex);
-			return "ERROR";
-		}
-	}
-
-	/**
-	 * Hashes an input string and returns the result
-	 * @param input - Input string to be hashed
-	 * @return - Hashed string of input
-	 */
-	private String hash(String input)
-	{
-		byte[] digest = null;
-		StringBuilder sb = new StringBuilder();
-
-		MessageDigest md;
-		try
-		{
-			md = MessageDigest.getInstance("MD5");
-		}
-		catch (NoSuchAlgorithmException ex)
-		{
-			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, "Failed to get MessageDigest instance", ex);
-			return "";
-		}
-
-		digest = md.digest(input.getBytes());
-		for (byte b : digest)
-		{
-			sb.append(String.format("%02X", b));
-		}
-
-		return sb.toString();
-	}
-
-	/**
-	 * Creates a hash out of supplied text after being made lowercase and with whitespace removed
-	 * @param text - Text to create a hash of
-	 * @return Hashed of text
-	 */
-	private String hashStrippedText(String text)
-	{
-		return hash(text.toLowerCase().replaceAll("\\s+", ""));
 	}
 
 	/**

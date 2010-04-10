@@ -2,7 +2,9 @@ package ws.actions.secure.admin;
 
 import ws.utils.Account;
 import ws.utils.Database;
+import ws.utils.Constants;
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.commons.lang.xwork.StringUtils;
 
 /**
  * Allows the editing of user information
@@ -95,69 +97,55 @@ public class EditUser extends ActionSupport
 			return;
 		}
 
-		if (!checkString(getEmail()))
+		if (StringUtils.isEmpty(getEmail()))
 		{
 			addFieldError("email", "Missing e-mail");
 		}
-		else if(getEmail().length() > 96)
+		else if(getEmail().length() > Constants.LEN_USER_EMAIL)
 		{
 			addFieldError("email", "Email too long");
 		}
 
-		if (getPassword() != null && getPassword().length() > 0)
+		if(!StringUtils.equals(getPassword(), getPasswordCheck()))
 		{
-			if(getPassword().length() > 32)
-			{
-				addFieldError("password", "Password too long");
-			}
-			if (getPasswordCheck() == null || getPasswordCheck().length() == 0)
-			{
-				addFieldError("passwordCheck", "Missing password");
-			}
-			else if (getPassword().compareTo(getPasswordCheck()) != 0)
-			{
-				addFieldError("passwordCheck", "Passwords do not match");
-			}
+			addFieldError("passwordCheck", "Passwords do not match");
 		}
-		else
-		{
-			if (getPasswordCheck() != null && getPasswordCheck().length() > 0)
-			{
-				addFieldError("passwordCheck", "Passwords do not match");
-			}
-		}
-		if (!checkString(getFirstName()))
+
+		if (StringUtils.isEmpty(getFirstName()))
 		{
 			addFieldError("firstName", "Missing first name");
 		}
-		else if(getFirstName().length() > 75)
+		else if(getFirstName().length() > Constants.LEN_USER_FIRSTNAME)
 		{
 			addFieldError("firstName", "First name too long");
 		}
-		if (!checkString(getLastName()))
+
+		if (StringUtils.isEmpty(getLastName()))
 		{
 			addFieldError("lastName", "Missing last name");
 		}
-		else if(getLastName().length() > 75)
+		else if(getLastName().length() > Constants.LEN_USER_LASTNAME)
 		{
 			addFieldError("lastName", "Last name too long");
 		}
-	}
 
-	/**
-	 * Checks to see if a string contains any characters aside from whitespace
-	 * @param str - String to check
-	 * @return True if string contains characters aside from whitespace, false if string is either
-	 *   missing or just whitespace
-	 */
-	private boolean checkString(String str)
-	{
-		if (str == null || str.trim().length() == 0)
+		if(StringUtils.isEmpty(getAddress()))
 		{
-			return false;
+			addFieldError("address", "Missing address");
+		}
+		else if(getAddress().length() > Constants.LEN_USER_ADDRESS)
+		{
+			addFieldError("address", "Address too long");
 		}
 
-		return true;
+		if(StringUtils.isEmpty(getPhone()))
+		{
+			phone = "";
+		}
+		else if(getPhone().length() > Constants.LEN_USER_PHONE)
+		{
+			addFieldError("phone", "Phone number too long");
+		}
 	}
 
 	/**

@@ -78,6 +78,15 @@
 		<action name="viewTransaction" class="ws.actions.secure.ViewTransaction">
 			<result>/secure/viewTransaction.jsp</result>
 		</action>
+
+		<action name="viewProducts" class="ws.actions.secure.ViewProducts">
+			<result>/secure/viewProducts.jsp</result>
+		</action>
+
+		<action name="viewProduct" class="ws.actions.secure.ViewProduct">
+			<result>/secure/viewProduct.jsp</result>
+		</action>
+
 	</package>
 
 	<!--

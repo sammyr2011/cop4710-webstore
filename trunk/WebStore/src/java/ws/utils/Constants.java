@@ -7,6 +7,10 @@ package ws.utils;
 public class Constants
 {
 	/**
+	 * Relative path to the product images directory
+	 */
+	public static final String PRODUCT_IMAGE_PATH = "/productImages/";
+	/**
 	 * Maximum length of the manufacturer.website attribute
 	 */
 	public static final int LEN_MANUFACTURER_WEBSITE = 128;

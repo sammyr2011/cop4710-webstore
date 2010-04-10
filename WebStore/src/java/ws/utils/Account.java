@@ -41,6 +41,8 @@ public abstract class Account
 	 * @param email - Email address
 	 * @param firstName - First name
 	 * @param lastName - Last name
+	 * @param phone - Phone number
+	 * @param address - Address
 	 * @param admin - True if user is an admin
 	 */
 	public Account(int id, String userName, String email, String firstName, String lastName, String phone, String address, boolean admin)

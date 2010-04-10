@@ -1,13 +1,10 @@
 package ws.actions;
 
-import ws.utils.Database;
-import ws.utils.Account;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
-import java.util.Vector;
-import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
+import ws.utils.Utils;
 
 /**
  * The login action authenticates the user and adds them to the session
@@ -41,20 +38,29 @@ public class Login extends ActionSupport implements SessionAware
 			return "alreadyAuthenticated";
 		}
 
+		/*
 		Database db = Database.getInstance();
 
 		Account user = db.getUser(getUserName(), getUserPassword());
 
 		if (user == null)
 		{
-			addFieldError("error", "Invalid username or password");
-			return INPUT;
+		addFieldError("error", "Invalid username or password");
+		return INPUT;
 		}
 
 		((SessionMap) session).invalidate();
 
 		session = ActionContext.getContext().getSession();
 		session.put("user", user);
+
+		 */
+
+		if (!Utils.forceUserLogin(getUserName(), getUserPassword()))
+		{
+			addFieldError("error", "Invalid username or password");
+			return INPUT;
+		}
 
 		return SUCCESS;
 	}
@@ -65,18 +71,19 @@ public class Login extends ActionSupport implements SessionAware
 	@Override
 	public void validate()
 	{
+		// TODO: No error if both are null, should reall be using a submit flag instead of checking for null here
 		if (getUserName() == null || getUserPassword() == null)
 		{
 			addFieldError("error", "");
 			return;
 		}
 
-		if (getUserName().length() == 0)
+		if (StringUtils.isEmpty(getUserName()))
 		{
 			addFieldError("userName", "Missing Name");
 		}
 
-		if (getUserPassword().length() == 0)
+		if (StringUtils.isEmpty(getUserPassword()))
 		{
 			addFieldError("userPassword", "Missing password");
 		}

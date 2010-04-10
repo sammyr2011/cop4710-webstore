@@ -12,9 +12,10 @@
 			<a href="<s:url value="/secure/admin/addUser"/>">Add User</a> |
 			<a href="<s:url value="/secure/admin/viewUsers"/>">View Users</a> |
 		</s:else>
-		<a href="<s:url action="logout"/>">Logout</a>
+		<a href="<s:url value="/logout"/>">Logout</a>
 	</s:if>
 	<s:else>
-		&ensp;
+		<a href="<s:url value="/newAccount"/>">New Account</a> |
+		<a href="<s:url value="/login"/>">Login</a>
 	</s:else>
 </div>

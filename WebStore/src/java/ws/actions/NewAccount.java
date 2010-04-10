@@ -1,15 +1,20 @@
-package ws.actions.secure.admin;
+package ws.actions;
 
+import com.opensymphony.xwork2.ActionContext;
 import ws.utils.Database;
 import ws.utils.Constants;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.Map;
 import org.apache.commons.lang.xwork.StringUtils;
+import org.apache.struts2.dispatcher.SessionMap;
+import ws.utils.Account;
+import ws.utils.Utils;
 
 /**
- * Allows for the creation of new users by administrators
- * @author Team 7
+ *
+ * @author Team 10
  */
-public class AddUser extends ActionSupport
+public class NewAccount extends ActionSupport
 {
 	/**
 	 * Username of the user to add
@@ -44,10 +49,6 @@ public class AddUser extends ActionSupport
 	 */
 	private String address;
 	/**
-	 * Flag to determine if the user is an administrator
-	 */
-	private boolean admin;
-	/**
 	 * Flag to determine if a user was previously added (For view purposes only)
 	 */
 	private boolean userAdded;
@@ -56,11 +57,6 @@ public class AddUser extends ActionSupport
 	 */
 	private boolean submit;
 
-	/**
-	 * @return
-	 * @throws Exception
-	 * @see com.opensymphony.xwork2.ActionSupport#execute()
-	 */
 	@Override
 	public String execute() throws Exception
 	{
@@ -69,20 +65,21 @@ public class AddUser extends ActionSupport
 			return INPUT;
 		}
 
-		if (!Database.getInstance().addUser(username, email, password, firstName, lastName, phone, address, admin))
+		if (!Database.getInstance().addUser(username, email, password, firstName, lastName, phone, address, false))
 		{
 			addActionError("Failed to add user to database");
-			userAdded = false;
 			return ERROR;
 		}
 
-		userAdded = true;
+		if(!Utils.forceUserLogin(username, password))
+		{
+			addActionError("Unable to login as new user");
+			return ERROR;
+		}
+
 		return SUCCESS;
 	}
 
-	/**
-	 * @see com.opensymphony.xwork2.ActionSupport#validate()
-	 */
 	@Override
 	public void validate()
 	{
@@ -168,6 +165,7 @@ public class AddUser extends ActionSupport
 		}
 	}
 
+
 	/**
 	 * @return Username of the user to add
 	 */
@@ -246,22 +244,6 @@ public class AddUser extends ActionSupport
 	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
-	}
-
-	/**
-	 * @return Flag to determine if the user is an administrator
-	 */
-	public boolean isAdmin()
-	{
-		return admin;
-	}
-
-	/**
-	 * @param admin - Flag to determine if the user is an administrator
-	 */
-	public void setAdmin(boolean admin)
-	{
-		this.admin = admin;
 	}
 
 	/**

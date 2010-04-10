@@ -5,7 +5,15 @@ import ws.utils.Account;
 import ws.utils.Database;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
+import org.apache.commons.lang.xwork.StringUtils;
+import org.apache.struts2.dispatcher.SessionMap;
+import ws.utils.Constants;
+import ws.utils.Utils;
 
+/**
+ * Allows the editing of current user
+ * @author Team 10
+ */
 public class EditAccount extends ActionSupport
 {
 	/**
@@ -33,12 +41,13 @@ public class EditAccount extends ActionSupport
 	 */
 	private String lastName;
 	/**
-	 * Flag to determine if the user is an administrator
+	 * Phone number of the user to add
 	 */
-
 	private String phone;
+	/**
+	 * Address of the user to add
+	 */
 	private String address;
-
 	/**
 	 * Flag to determine if data was submitted
 	 */
@@ -63,6 +72,11 @@ public class EditAccount extends ActionSupport
 			return ERROR;
 		}
 
+		Utils.updateUserSession(user);
+
+		user = null;
+		user = getUser();
+
 		return SUCCESS;
 	}
 
@@ -77,98 +91,55 @@ public class EditAccount extends ActionSupport
 			return;
 		}
 
-		if (!checkString(getEmail()))
+		if (StringUtils.isEmpty(getEmail()))
 		{
 			addFieldError("email", "Missing e-mail");
 		}
-		else if(getEmail().length() > 96)
+		else if (getEmail().length() > Constants.LEN_USER_EMAIL)
 		{
 			addFieldError("email", "Email too long");
 		}
 
-		if (getPassword() != null && getPassword().length() > 0)
+		if (!StringUtils.equals(getPassword(), getPasswordCheck()))
 		{
-			if(getPassword().length() > 32)
-			{
-				addFieldError("password", "Password too long");
-			}
-			if (getPasswordCheck() == null || getPasswordCheck().length() == 0)
-			{
-				addFieldError("passwordCheck", "Missing password");
-			}
-			else if (getPassword().compareTo(getPasswordCheck()) != 0)
-			{
-				addFieldError("passwordCheck", "Passwords do not match");
-			}
-		}
-		else
-		{
-			if (getPasswordCheck() != null && getPasswordCheck().length() > 0)
-			{
-				addFieldError("passwordCheck", "Passwords do not match");
-			}
+			addFieldError("passwordCheck", "Passwords do not match");
 		}
 
-		if (!checkString(getFirstName()))
+		if (StringUtils.isEmpty(getFirstName()))
 		{
 			addFieldError("firstName", "Missing first name");
 		}
-		else if(getFirstName().length() > 75)
+		else if (getFirstName().length() > Constants.LEN_USER_FIRSTNAME)
 		{
 			addFieldError("firstName", "First name too long");
 		}
 
-		if (!checkString(getLastName()))
+		if (StringUtils.isEmpty(getLastName()))
 		{
 			addFieldError("lastName", "Missing last name");
 		}
-		else if(getLastName().length() > 75)
+		else if (getLastName().length() > Constants.LEN_USER_LASTNAME)
 		{
 			addFieldError("lastName", "Last name too long");
 		}
 
-		if(!checkPhone(getPhone()))
+		if (StringUtils.isEmpty(getPhone()))
 		{
-			addFieldError("phone", "Invalid phone number");
+			phone = "";
 		}
-		else if(getPhone().length() > 16)
+		else if (getPhone().length() > Constants.LEN_USER_PHONE)
 		{
 			addFieldError("phone", "Phone number too long");
 		}
 
-		if(!checkString(getAddress()))
+		if (StringUtils.isEmpty(getAddress()))
 		{
 			addFieldError("address", "Missing address");
 		}
-		else if(getAddress().length() > 256)
+		else if (getAddress().length() > Constants.LEN_USER_ADDRESS)
 		{
 			addFieldError("address", "Address too long");
 		}
-	}
-
-	// TODO: Move all the empty string checking crap to a utils class somewhere, way too much duplicate code
-	private boolean checkPhone(String str)
-	{
-		// TODO: Check various phone formats
-
-		return checkString(str);
-	}
-
-	// TODO: Move all the empty string checking crap to a utils class somewhere, way too much duplicate code
-	/**
-	 * Checks to see if a string contains any characters aside from whitespace
-	 * @param str - String to check
-	 * @return True if string contains characters aside from whitespace, false if string is either
-	 *   missing or just whitespace
-	 */
-	private boolean checkString(String str)
-	{
-		if (str == null || str.trim().length() == 0)
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -304,13 +275,12 @@ public class EditAccount extends ActionSupport
 	 */
 	public Account getUser()
 	{
-		if(user == null)
+		if (user == null)
 		{
 			Map session = ActionContext.getContext().getSession();
-			user = (Account)session.get("user");
+			user = (Account) session.get("user");
 		}
 
 		return user;
 	}
-
 }

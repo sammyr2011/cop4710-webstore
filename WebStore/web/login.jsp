@@ -10,7 +10,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Login</title>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/"/>main.css" />
+		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
 		<style type="text/css">
 			input{
 				width: 150px;

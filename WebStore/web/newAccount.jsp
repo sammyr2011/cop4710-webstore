@@ -7,7 +7,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add User</title>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/"/>main.css">
 		<style type="text/css">
 			input{
 				width: 150px;
@@ -21,18 +21,8 @@
 		<div class="content">
 			<s:include value="/header.jsp" />
 			<div align="center">
-				<s:if test="userAdded">
-					<div class="sectionHeader">
-						<p class="sectionHeaderText">Added user "<s:property value="username"/>"</p>
-					</div>
-					<pre style="text-align:left;">
-Name: <s:property value="firstName"/> <s:property value="lastName"/>
-Email: <s:property value="email"/>
-Admin: <s:property value="admin"/>
-					</pre>
-				</s:if>
 				<div class="sectionHeader">
-					<p class="sectionHeaderText">Add User</p>
+					<p class="sectionHeaderText">User Registration</p>
 				</div>
 				<s:form>
 					<s:textfield name="username" label="Username" maxLength="%{@ws.utils.Constants@LEN_USER_USERNAME}"/>
@@ -43,7 +33,6 @@ Admin: <s:property value="admin"/>
 					<s:textfield name="lastName" label="Last Name" maxLength="%{@ws.utils.Constants@LEN_USER_LASTNAME}" />
 					<s:textfield name="Address" label="Address" maxLength="%{@ws.utils.Constants@LEN_USER_ADDRESS}" />
 					<s:textfield name="phone" label="Phone Number" maxLength="%{@ws.utils.Constants@LEN_USER_PHONE}" />
-					<s:checkbox name="admin" label="Administrator" style="width: auto;" />
 					<s:hidden name="submit" value="true"  />
 					<s:submit style="width: auto;"  />
 				</s:form>

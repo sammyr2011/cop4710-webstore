@@ -268,6 +268,20 @@ public class Database
 		return fetchedData.get(0);
 	}
 
+	
+	/**
+	 * Returns the manufacturer's name
+	 * @param id - ID of manufacturer
+	 * @return Name of manufacturer
+	 */
+	public String getManufacturerName(int id)
+	{
+		// TODO: Would be much better to get just the name from the database
+		Manufacturer m = getManufacturer(id);
+
+		return m.getName();
+	}
+
 	/**
 	 * Returns the review with specified ID
 	 * @param id - Unique ID of review to get
@@ -434,11 +448,11 @@ public class Database
 
 		if (StringUtils.isNotEmpty(name))
 		{
-			query.append(String.format("`%s` = '%s', ", "name", Utils.sanitize(name)));
+			query.append(String.format("`%s` = '%s', ", "CompanyName", Utils.sanitize(name)));
 		}
 		if (website != null)
 		{
-			query.append(String.format("`%s` = '%s', ", "website", Utils.sanitize(website)));
+			query.append(String.format("`%s` = '%s', ", "Website", Utils.sanitize(website)));
 		}
 
 		// Just to remove the trailing comma. There are much better ways of going about this, but
@@ -472,6 +486,10 @@ public class Database
 		if (productId != null)
 		{
 			query.append(String.format("`%s` = '%d', ", "productId", productId));
+		}
+		if (rating != null)
+		{
+			query.append(String.format("`%s` = '%d', ", "rating", productId));
 		}
 		if (StringUtils.isNotEmpty(comment))
 		{
@@ -837,8 +855,8 @@ public class Database
 						fetchedManufacturer.add(
 								new Manufacturer(
 								result.getInt("mId"),
-								Utils.unsanatize(result.getString("Website")),
-								Utils.unsanatize(result.getString("Name"))));
+								Utils.unsanatize(result.getString("CompanyName")),
+								Utils.unsanatize(result.getString("Website"))));
 						break;
 					case Review:
 						fetchedReview.add(

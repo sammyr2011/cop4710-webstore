@@ -27,11 +27,16 @@ public abstract class Account
 	 */
 	private String lastName;
 	/**
-	 * Flag set only on creation of Admin accounts. Determins if an account is an administrator.
+	 * Phone number of account
 	 */
 	private String phone;
+	/**
+	 * Address of account
+	 */
 	private String address;
-
+	/**
+	 * Flag set only on creation of Admin accounts. Determins if an account is an administrator.
+	 */
 	private boolean admin;
 
 	/**

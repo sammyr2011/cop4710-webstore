@@ -294,7 +294,7 @@ public class Database
 	 */
 	public Transaction getTransaction(int id)
 	{
-		String query = "SELECT * FROM `transactions` WHERE `TransactionId` = '" + id + "' LIMIT 1 ;";
+		String query = "SELECT * FROM `purchases` WHERE `purchaseId` = '" + id + "' LIMIT 1 ;";
 
 		Vector<Transaction> fetchedData = (Vector<Transaction>) executeQuery(query, DataType.Transaction);
 
@@ -753,6 +753,7 @@ public class Database
 	 */
 	private Vector<?> executeQuery(String query, DataType dataType)
 	{
+		System.out.println("executeQuery: " + query);
 		// TODO: ? Break this function down or get rid of it, it's a horrible mess
 		Vector<Account> fetchedAccount = null;
 		Vector<Product> fetchedProduct = null;
@@ -876,6 +877,14 @@ public class Database
 		{
 			case Account:
 				return fetchedAccount;
+			case Manufacturer:
+				return fetchedManufacturer;
+			case Product:
+				return fetchedProduct;
+			case Review:
+				return fetchedReview;
+			case Transaction:
+				return fetchedTransaction;
 		}
 
 		return new Vector<Object>();

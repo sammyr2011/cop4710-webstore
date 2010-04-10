@@ -369,7 +369,7 @@ public class Database
 	}
 
 	/**
-	 * Adds a new product to the database
+	 * Edits product information. Fields may be null if change is not desired.
 	 * @param id - ID of product to edit
 	 * @param name - Name of the product
 	 * @param manufacturerId - ID of the product's manufacturer
@@ -420,7 +420,7 @@ public class Database
 	}
 
 	/**
-	 * Adds a new manufacturer to the database
+	 * Edits manufacturer information. Fields may be null if change is not desired.
 	 * @param id - ID of manufacturer to edit
 	 * @param name - Name of the manufacturer
 	 * @param website - Manufacturer's website
@@ -451,7 +451,7 @@ public class Database
 	}
 
 	/**
-	 * Adds a new review to the database
+	 * Edits review information. Fields may be null if change is not desired.
 	 * @param id - ID of review to edit
 	 * @param userId - Unique ID of user making the review
 	 * @param productId - Unique ID of product reviewed
@@ -488,7 +488,7 @@ public class Database
 	}
 
 	/**
-	 * Adds a new transaction report to the database
+	 * Edits transaction information. Fields may be null if change is not desired.
 	 * @param id - Unique transaction ID
 	 * @param userId - Unique ID of user making the purchase
 	 * @param productId - Unique ID of product purchased

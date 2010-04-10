@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC
-    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
-    "http://struts.apache.org/dtds/struts-2.0.dtd">
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
 	<constant name="struts.devMode" value="false" />
 
-<!--
+	<!--
 	Default namespace
 	Provides actions and results accessable by everyone
 -->
@@ -35,7 +35,7 @@
 		</action>
 	</package>
 
-<!--
+	<!--
 	Root namespace
 	Just provides a redirect so users have a place to go when they visit domain/project/
 -->
@@ -46,7 +46,7 @@
 		</action>
 	</package>
 
-<!--
+	<!--
 	Secure namespace
 	Base namespace for all user types, includes basic actions everyone can use
 -->
@@ -71,11 +71,18 @@
 			<result>userHome.jsp</result>
 		</action>
 
+		<action name="transactionHistory" class="ws.actions.secure.TransactionHistory">
+			<result>/secure/transactionHistory.jsp</result>
+		</action>
+
+		<action name="viewTransaction" class="ws.actions.secure.ViewTransaction">
+			<result>/secure/viewTransaction.jsp</result>
+		</action>
 	</package>
 
-<!--
+	<!--
 	Secure/user namespace
-	Namespace for user types of accounts only. 
+	Namespace for user types of accounts only.
 -->
 	<package name="cimSecureUser" namespace="/secure/user" extends="cimSecure">
 		<interceptors>
@@ -93,11 +100,12 @@
 			<result>editAccountSuccess.jsp</result>
 			<result name="input">editAccount.jsp</result>
 		</action>
+
 	</package>
 
-<!--
+	<!--
 	Secure/admin namespace
-	Namespace for administrator account types. 
+	Namespace for administrator account types.
 -->
 	<package name="cimSecureAdmin" namespace="/secure/admin" extends="cimSecure">
 		<interceptors>

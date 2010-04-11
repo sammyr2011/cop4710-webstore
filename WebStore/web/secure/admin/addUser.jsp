@@ -21,16 +21,6 @@
 		<div class="content">
 			<s:include value="/header.jsp" />
 			<div align="center">
-				<s:if test="userAdded">
-					<div class="sectionHeader">
-						<p class="sectionHeaderText">Added user "<s:property value="username"/>"</p>
-					</div>
-					<pre style="text-align:left;">
-Name: <s:property value="firstName"/> <s:property value="lastName"/>
-Email: <s:property value="email"/>
-Admin: <s:property value="admin"/>
-					</pre>
-				</s:if>
 				<div class="sectionHeader">
 					<p class="sectionHeaderText">Add User</p>
 				</div>

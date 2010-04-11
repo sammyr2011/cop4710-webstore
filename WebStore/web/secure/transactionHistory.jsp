@@ -16,9 +16,19 @@
 				<p class="sectionHeaderText">Transaction History</p>
 			</div>
 
+
 			<ol style="text-align: left;">
 				<s:iterator value="transactions" var="transaction">
-					<li><a href="<s:url action="viewTransaction"><s:param name="transactionId" value="#transaction.id"/></s:url>"><s:property value="#transaction.date"/></a>  $<s:property value="#transaction.price"/></li>
+					<li>
+						<a href="<s:url action="viewTransaction"><s:param name="transactionId" value="#transaction.id"/></s:url>">
+							<s:text name="format.date">
+								<s:param value="#transaction.date" />
+							</s:text>
+						</a>
+						<s:text name="format.currency">
+							<s:param value="#transaction.price"/>
+						</s:text>
+					</li>
 				</s:iterator>
 			</ol>
 		</div>

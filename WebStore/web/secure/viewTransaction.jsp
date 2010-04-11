@@ -9,19 +9,19 @@
 		<title>Generic title</title>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
 		<style type="text/css">
-table.transactionTable {
-	padding: 5px;
-}
-tr.transactionTableRow {
+			table.transactionTable {
+				padding: 5px;
+			}
+			tr.transactionTableRow {
 
-}
-td.transactionTableColLabel {
-	text-align: right;
-	font-weight: bold;
-}
-td.transactionTableColData {
+			}
+			td.transactionTableColLabel {
+				text-align: right;
+				font-weight: bold;
+			}
+			td.transactionTableColData {
 
-}
+			}
 		</style>
     </head>
     <body>
@@ -44,7 +44,7 @@ td.transactionTableColData {
 				</tr>
 				<tr class="transactionTableRow">
 					<td class="transactionTableColLabel">Price:</td>
-					<td class="transactionTableColData">$<s:property value="%{transaction.price}"/> (Shipping: $<s:property value="%{transaction.shippingPrice}"/>)</td>
+					<td class="transactionTableColData"><s:text name="format.currency"><s:param value="%{transaction.price}"/></s:text>(Shipping: <s:text name="format.currency"><s:param value="%{transaction.shippingPrice}"/></s:text>)</td>
 				</tr>
 				<tr class="transactionTableRow">
 					<td class="transactionTableColLabel">Shipping Address:</td>
@@ -52,7 +52,11 @@ td.transactionTableColData {
 				</tr>
 				<tr class="transactionTableRow">
 					<td class="transactionTableColLabel">Date purchased:</td>
-					<td class="transactionTableColData"><s:property value="%{transaction.date}"/></td>
+					<td class="transactionTableColData">
+						<s:text name="format.date">
+							<s:param value="%{transaction.date}" />
+						</s:text>
+					</td>
 				</tr>
 			</table>
 		</div>

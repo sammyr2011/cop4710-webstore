@@ -259,9 +259,9 @@ public class AddUser extends ActionSupport
 	/**
 	 * @param admin - Flag to determine if the user is an administrator
 	 */
-	public void setAdmin(boolean admin)
+	public void setAdmin(String admin)
 	{
-		this.admin = admin;
+		this.admin = Boolean.parseBoolean(admin);
 	}
 
 	/**
@@ -299,9 +299,9 @@ public class AddUser extends ActionSupport
 	/**
 	 * @param submit - The flag to determine if the user submitted data
 	 */
-	public void setSubmit(boolean submit)
+	public void setSubmit(String submit)
 	{
-		this.submit = submit;
+		this.submit = Boolean.parseBoolean(submit);
 	}
 
 	/**

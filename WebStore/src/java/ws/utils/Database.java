@@ -114,14 +114,30 @@ public class Database
 	public boolean addProduct(String name, int manufacturerId, double price, int stock, String image, String description)
 	{
 		// TODO: Check manufacturer id to see if it exists?
-		String query = "INSERT INTO `webstore`.`product` ( `ProductID`, `Name`, `ManufacturerID`, `Price`, `Stock`, `Image`, `Description` ) "
-				+ "VALUES ( NULL , '"
-				+ Utils.sanitize(name) + "', '"
-				+ manufacturerId + "', '"
-				+ price + "', '"
-				+ stock + "', '"
-				+ Utils.sanitize(image) + "', '"
-				+ Utils.sanitize(description) + "');";
+
+		String query;
+
+		if (StringUtils.isNotEmpty(image))
+		{
+			query = "INSERT INTO `webstore`.`product` ( `ProductID`, `Name`, `ManufacturerID`, `Price`, `Stock`, `Image`, `Description` ) "
+					+ "VALUES ( NULL , '"
+					+ Utils.sanitize(name) + "', '"
+					+ manufacturerId + "', '"
+					+ price + "', '"
+					+ stock + "', '"
+					+ Utils.sanitize(image) + "', '"
+					+ Utils.sanitize(description) + "');";
+		}
+		else
+		{
+			query = "INSERT INTO `webstore`.`product` ( `ProductID`, `Name`, `ManufacturerID`, `Price`, `Stock`, `Description` ) "
+					+ "VALUES ( NULL , '"
+					+ Utils.sanitize(name) + "', '"
+					+ manufacturerId + "', '"
+					+ price + "', '"
+					+ stock + "', '"
+					+ Utils.sanitize(description) + "');";
+		}
 
 		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query);
@@ -268,7 +284,6 @@ public class Database
 		return fetchedData.get(0);
 	}
 
-	
 	/**
 	 * Returns the manufacturer's name
 	 * @param id - ID of manufacturer

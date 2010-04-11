@@ -115,6 +115,11 @@
 			<result>purchaseSuccessful.jsp</result>
 			<result name="input">buyProductConfirmation.jsp</result>
 		</action>
+
+		<action name="reviewProduct" class="ws.actions.secure.user.ReviewProduct">
+			<result>reviewSuccessful.jsp</result>
+			<result name="input">reviewProduct.jsp</result>
+		</action>
 		
 	</package>
 

@@ -38,24 +38,6 @@ public class Login extends ActionSupport implements SessionAware
 			return "alreadyAuthenticated";
 		}
 
-		/*
-		Database db = Database.getInstance();
-
-		Account user = db.getUser(getUserName(), getUserPassword());
-
-		if (user == null)
-		{
-		addFieldError("error", "Invalid username or password");
-		return INPUT;
-		}
-
-		((SessionMap) session).invalidate();
-
-		session = ActionContext.getContext().getSession();
-		session.put("user", user);
-
-		 */
-
 		if (!Utils.forceUserLogin(getUserName(), getUserPassword()))
 		{
 			addFieldError("error", "Invalid username or password");

@@ -111,6 +111,11 @@
 			<result name="input">editAccount.jsp</result>
 		</action>
 
+		<action name="buyProduct" class="ws.actions.secure.user.BuyProduct">
+			<result>purchaseSuccessful.jsp</result>
+			<result name="input">buyProductConfirmation.jsp</result>
+		</action>
+		
 	</package>
 
 	<!--

@@ -11,8 +11,16 @@ import java.util.Vector;
  */
 public class ViewProducts extends ActionSupport
 {
+	/**
+	 * List of every product
+	 */
 	private Vector<Product> products;
 
+	/**
+	 * @return
+	 * @throws Exception
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
 	@Override
 	public String execute() throws Exception
 	{

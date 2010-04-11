@@ -24,6 +24,11 @@ public class AddManufacturer extends ActionSupport
 	 */
 	private boolean submit;
 
+	/**
+	 * @return
+	 * @throws Exception
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
 	@Override
 	public String execute() throws Exception
 	{
@@ -41,6 +46,9 @@ public class AddManufacturer extends ActionSupport
 		return SUCCESS;
 	}
 
+	/**
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
 	@Override
 	public void validate()
 	{
@@ -107,6 +115,7 @@ public class AddManufacturer extends ActionSupport
 	}
 
 	/**
+	 * Flag set when user has submitted data
 	 * @return the submit
 	 */
 	public boolean isSubmit()

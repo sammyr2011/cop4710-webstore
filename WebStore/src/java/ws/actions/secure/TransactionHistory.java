@@ -26,6 +26,8 @@ public class TransactionHistory extends ActionSupport implements SessionAware
 	/**
 	 * Retrieves a list of transactions. For users, only their own transactions are retrieved. Admin
 	 *   account will get all transactions
+	 *
+	 * @return Returns a list of current user's transactions, or every transaction if user is an admin.
 	 */
 	public Vector<Transaction> getTransactions()
 	{
@@ -46,6 +48,10 @@ public class TransactionHistory extends ActionSupport implements SessionAware
 		return transactions;
 	}
 
+	/**
+	 * Obtains access to the session map, set automatically
+	 * @param session - Current session map
+	 */
 	public void setSession(Map session)
 	{
 		this.session = session;

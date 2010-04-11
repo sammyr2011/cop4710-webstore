@@ -47,9 +47,12 @@ public class ViewProduct extends ActionSupport
 		this.productId = productId;
 	}
 
+	/**
+	 * Returns the name of the product's manufacturer
+	 * @return Manufacturer's name
+	 */
 	public String getManufacturerName()
 	{
-		System.out.println("Get name = " + getProduct());
 		if (getProduct() == null)
 		{
 			return "";

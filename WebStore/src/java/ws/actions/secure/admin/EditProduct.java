@@ -49,6 +49,11 @@ public class EditProduct extends ActionSupport
 	 */
 	private Product product;
 
+	/**
+	 * @return
+	 * @throws Exception
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
 	@Override
 	public String execute() throws Exception
 	{
@@ -72,6 +77,9 @@ public class EditProduct extends ActionSupport
 		return SUCCESS;
 	}
 
+	/**
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
 	@Override
 	public void validate()
 	{
@@ -281,7 +289,7 @@ public class EditProduct extends ActionSupport
 
 	/**
 	 * ID of the product to edit if we are editing a product
-	 * @param editProductId the editProductId to set
+	 * @param productId - ID of the product to edit
 	 */
 	public void setProductId(String productId)
 	{

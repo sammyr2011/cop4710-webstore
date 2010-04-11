@@ -33,6 +33,11 @@ public class EditManufacturer extends ActionSupport
 	 */
 	private boolean submit;
 
+	/**
+	 * @return
+	 * @throws Exception
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
 	@Override
 	public String execute() throws Exception
 	{
@@ -56,6 +61,9 @@ public class EditManufacturer extends ActionSupport
 		return SUCCESS;
 	}
 
+	/**
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
 	@Override
 	public void validate()
 	{

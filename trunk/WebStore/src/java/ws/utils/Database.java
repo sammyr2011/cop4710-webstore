@@ -196,12 +196,13 @@ public class Database
 	{
 		// TODO: Check user id to see if it exists?
 		// TODO: Check product id to see if it exists?
-		String query = "INSERT INTO `webstore`.`purchases` ( `PurchaseID`, `UserID`, `ProductID`, `Price`, `ShippingAddress`, `Date`, `ShippingPrice` )"
-				+ "VALUES ( NULL , '"
+		String query = "INSERT INTO `webstore`.`purchases` ( `PurchaseID`, `Date`, `UserID`, `ProductID`, `Price`, `ShippingAddress`, `ShippingPrice` )"
+				+ "VALUES ( NULL, NULL, '"
+				+ userId + "', '"
 				+ productId + "', '"
 				+ price + "', '"
-				+ shippingPrice + "', '"
-				+ Utils.sanitize(shippingAddress) + "');";
+				+ Utils.sanitize(shippingAddress) + "', '"
+				+ shippingPrice + "');";
 
 		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query);

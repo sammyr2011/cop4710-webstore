@@ -9,19 +9,19 @@
 		<title>Generic title</title>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
 		<style type="text/css">
-table.transactionTable {
-	padding: 5px;
-}
-tr.transactionTableRow {
+			table.transactionTable {
+				padding: 5px;
+			}
+			tr.transactionTableRow {
 
-}
-td.transactionTableColLabel {
-	text-align: right;
-	font-weight: bold;
-}
-td.transactionTableColData {
+			}
+			td.transactionTableColLabel {
+				text-align: right;
+				font-weight: bold;
+			}
+			td.transactionTableColData {
 
-}
+			}
 		</style>
     </head>
 
@@ -31,6 +31,13 @@ td.transactionTableColData {
 			<div class="sectionHeader">
 				<p class="sectionHeaderText">Product Details</p>
 			</div>
+
+			<s:if test="!#session.user.admin">
+				<s:form action="user/buyProduct">
+					<s:hidden name="productId" value="%{product.id}"/>
+					<s:submit style="width: auto;" value="Buy product" />
+				</s:form>
+			</s:if>
 
 			<img width="300" src="<s:url value="%{product.image}"/>" alt="Image goes here"/>
 			<table class="transactionTable">

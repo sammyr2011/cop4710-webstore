@@ -14,10 +14,25 @@ import ws.utils.Transaction;
  */
 public class ViewTransaction extends ActionSupport implements SessionAware
 {
+	/**
+	 * Current session map
+	 */
 	private Map session;
+	/**
+	 * ID of the transaction to view
+	 */
 	private Integer transactionId;
+	/**
+	 * Transaction to view
+	 */
 	private Transaction transaction;
+	/**
+	 * Product of the transaction
+	 */
 	private Product product;
+	/**
+	 * User who made the transaction
+	 */
 	private Account transactionUser;
 	
 	/**
@@ -50,12 +65,19 @@ public class ViewTransaction extends ActionSupport implements SessionAware
 		return SUCCESS;
 	}
 
+	/**
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
 	@Override
 	public void validate()
 	{
 		super.validate();
 	}
 
+	/**
+	 * Obtains access to the session map, set automatically
+	 * @param session - Current session map
+	 */
 	public void setSession(Map session)
 	{
 		this.session = session;

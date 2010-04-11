@@ -101,7 +101,7 @@ public class AddUser extends ActionSupport
 			{
 				addFieldError("username", "Username too long");
 			}
-			if (Database.getInstance().checkForExistingAccount(getUsername()) != null)
+			if (Database.getInstance().checkForExistingAccount(getUsername()))
 			{
 				addFieldError("username", "Username already exists");
 			}

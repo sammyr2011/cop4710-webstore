@@ -37,6 +37,10 @@
 					<s:hidden name="productId" value="%{product.id}"/>
 					<s:submit style="width: auto;" value="Buy product" />
 				</s:form>
+				<s:form action="user/reviewProduct">
+					<s:hidden name="productId" value="%{product.id}"/>
+					<s:submit style="width: auto;" value="Review product" />
+				</s:form>
 			</s:if>
 
 			<img width="300" src="<s:url value="%{product.image}"/>" alt="Image goes here"/>

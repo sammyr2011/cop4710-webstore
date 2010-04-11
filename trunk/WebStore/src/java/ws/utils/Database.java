@@ -97,7 +97,6 @@ public class Database
 				+ Utils.sanitize(phone) + "', '"
 				+ (admin ? 1 : 0) + "');";
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query);
 	}
 
@@ -139,7 +138,6 @@ public class Database
 					+ Utils.sanitize(description) + "');";
 		}
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query);
 	}
 
@@ -156,7 +154,6 @@ public class Database
 				+ Utils.sanitize(website) + "', '"
 				+ Utils.sanitize(name) + "');";
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query);
 	}
 
@@ -175,11 +172,11 @@ public class Database
 		// TODO: Check rating to see if it's within range? [1..10]?
 		String query = "INSERT INTO `webstore`.`reviews` ( `ReviewID`, `UserID`, `ProductID`, `Rating`, `Comment` ) "
 				+ "VALUES ( NULL , '"
+				+ userId + "', '"
 				+ productId + "', '"
 				+ rating + "', '"
 				+ Utils.sanitize(comment) + "');";
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query);
 	}
 
@@ -204,7 +201,6 @@ public class Database
 				+ Utils.sanitize(shippingAddress) + "', '"
 				+ shippingPrice + "');";
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query);
 	}
 
@@ -394,7 +390,6 @@ public class Database
 		query.delete(query.length() - 2, query.length() + 1);
 		query.append(String.format("WHERE `UserId` = %d LIMIT 1", id));
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query.toString());
 	}
 
@@ -445,7 +440,6 @@ public class Database
 		query.delete(query.length() - 2, query.length() + 1);
 		query.append(String.format("WHERE `ProductId` = %d LIMIT 1", id));
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query.toString());
 	}
 
@@ -476,7 +470,6 @@ public class Database
 		query.delete(query.length() - 2, query.length() + 1);
 		query.append(String.format("WHERE `mId` = %d LIMIT 1", id));
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query.toString());
 	}
 
@@ -517,7 +510,6 @@ public class Database
 		query.delete(query.length() - 2, query.length() + 1);
 		query.append(String.format("WHERE `ReviewId` = %d LIMIT 1", id));
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query.toString());
 	}
 
@@ -564,7 +556,6 @@ public class Database
 
 		query.append(String.format("WHERE `purchases` = '%d' LIMIT 1", id));
 
-		System.out.println("Executing: " + query.toString());
 		return executeQueryUpdate(query.toString());
 	}
 
@@ -693,53 +684,26 @@ public class Database
 	/**
 	 * Checks to see if a username already exists
 	 * @param username - Username to check to see if it's a duplicate
-	 * @return null when data does not exist, ID of data entry if data already exists
+	 * @return true if username already exists
 	 */
-	public Integer checkForExistingAccount(String username)
+	public boolean checkForExistingAccount(String username)
 	{
-		Hashtable<String, Object> values = new Hashtable<String, Object>();
+		String query = String.format("SELECT 1 FROM `users` WHERE `username` = '" + Utils.sanitize(username) + "'  LIMIT 1;");
 
-		values.put("username", username);
-
-		return checkForExistingData(values, DataType.Account);
+		return executeQuerySingleResultInt(query) != null;
 	}
 
 	/**
-	 * Checks to see if data with specific values already exist in the database
-	 *		Account - username
-	 * @param unique - Map of unique values to check for
-	 * @param dataType - Type of data to check
-	 * @return null when data does not exist, ID of data entry if data already exists
+	 * Checks to see if a user has already reviewed a product
+	 * @param productId - ID of product
+	 * @param userId - ID of user
+	 * @return true if user has already reviewed product
 	 */
-	private Integer checkForExistingData(Map<String, Object> unique, DataType dataType)
+	public boolean checkForExistingReview(int productId, int userId)
 	{
-		String queryExistingData = null;
+		String query = String.format("SELECT 1 FROM `reviews` WHERE `ReviewId` = '" + productId + "' AND `UserId` = '" + userId + "'  LIMIT 1;");
 
-		switch (dataType)
-		{
-			case Account:
-				queryExistingData = "SELECT `UserId`, `username` FROM `users` WHERE (`username` = '" + Utils.sanitize((String) unique.get("username")) + "' ) LIMIT 1;";
-				break;
-			default:
-				return null;
-		}
-
-		Integer existingId = executeQuerySingleResultInt(queryExistingData);
-		if (existingId != null)
-		{
-			return existingId;
-		}
-
-		return null;
-	}
-
-	private boolean checkForExistingRow(int id, String tableName, String attributeName)
-	{
-		String query = String.format("SELECT 1 FROM `%s` WHERE (`%s` = '%d' ) LIMIT 1;", tableName, attributeName, id);
-
-		Integer existingId = executeQuerySingleResultInt(query);
-
-		return existingId != null;
+		return executeQuerySingleResultInt(query) != null;
 	}
 
 	/**
@@ -749,6 +713,7 @@ public class Database
 	 */
 	private Integer executeQuerySingleResultInt(String query)
 	{
+		System.out.println("Executing: " + query.toString());
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet result = null;
@@ -931,6 +896,7 @@ public class Database
 	 */
 	private boolean executeQueryUpdate(String query)
 	{
+		System.out.println("Executing: " + query.toString());
 		Connection connection = null;
 		Statement statement = null;
 

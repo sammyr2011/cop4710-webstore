@@ -112,9 +112,16 @@ public class BuyProduct extends ActionSupport implements SessionAware
 	 * ID of product to purchase
 	 * @param productId the productId to set
 	 */
-	public void setProductId(Integer productId)
+	public void setProductId(String productId)
 	{
-		this.productId = productId;
+		try
+		{
+			this.productId = Integer.parseInt(productId);
+		}
+		catch (NumberFormatException numberFormatException)
+		{
+			this.productId = null;
+		}
 	}
 
 	/**

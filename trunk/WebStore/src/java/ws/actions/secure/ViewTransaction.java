@@ -94,9 +94,16 @@ public class ViewTransaction extends ActionSupport implements SessionAware
 	/**
 	 * @param transactionId the transactionId to set
 	 */
-	public void setTransactionId(Integer transactionId)
+	public void setTransactionId(String transactionId)
 	{
-		this.transactionId = transactionId;
+		try
+		{
+			this.transactionId = Integer.parseInt(transactionId);
+		}
+		catch (NumberFormatException numberFormatException)
+		{
+			this.transactionId = null;
+		}
 	}
 
 	/**

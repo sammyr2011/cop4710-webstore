@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 11, 2010 at 09:49 PM
+-- Generation Time: Apr 11, 2010 at 10:17 PM
 -- Server version: 5.1.45
 -- PHP Version: 5.3.0
 
@@ -61,10 +61,10 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`ProductID`, `Name`, `ManufacturerID`, `Price`, `Stock`, `Image`, `Description`) VALUES
-(1, 'Rock', 2, 2, 1000, 'missing.jpg', 'It''s a rock'),
+(1, 'Rock', 2, 2, 997, 'missing.jpg', 'It''s a rock'),
 (2, 'Paper', 1, 0.1, 1, 'missing.jpg', 'Acme paper'),
-(3, 'Sand (10lbs)', 3, 5, 5, 'missing.jpg', 'Sand, 10 pounds of it'),
-(4, 'Slightly used paper', 1, 0.05, 10, 'missing.jpg', 'It''s slightly used paper');
+(3, 'Sand (10lbs)', 3, 5, 3, 'missing.jpg', 'Sand, 10 pounds of it'),
+(4, 'Slightly used paper', 1, 0.05, 8, 'missing.jpg', 'It''s slightly used paper');
 
 -- --------------------------------------------------------
 
@@ -83,12 +83,20 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   PRIMARY KEY (`PurchaseID`),
   KEY `UserID` (`UserID`),
   KEY `ProductID` (`ProductID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `purchases`
 --
 
+INSERT INTO `purchases` (`PurchaseID`, `UserID`, `ProductID`, `Price`, `ShippingAddress`, `Date`, `ShippingPrice`) VALUES
+(9, 2, 1, 2, '1270+Snider+StreetCheraw%2C+CO+81030', '2010-04-11 18:02:14', 5),
+(10, 2, 3, 5, '1270+Snider+StreetCheraw%2C+CO+81030', '2010-04-11 18:02:33', 5),
+(11, 2, 4, 0.05, '1270+Snider+StreetCheraw%2C+CO+81030', '2010-04-11 18:02:44', 5),
+(12, 2, 4, 0.05, '1270+Snider+StreetCheraw%2C+CO+81030', '2010-04-11 18:12:23', 5),
+(13, 3, 1, 2, '1518+Whiteman+StreetCamden%2C+NJ+08102+', '2010-04-11 18:13:51', 5),
+(14, 3, 3, 5, '1518+Whiteman+StreetCamden%2C+NJ+08102+', '2010-04-11 18:14:05', 5),
+(15, 4, 1, 2, '1198+Burning+Memory+LanePhiladelphia%2C+PA+19103', '2010-04-11 18:16:20', 5);
 
 -- --------------------------------------------------------
 
@@ -105,12 +113,18 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   PRIMARY KEY (`ReviewID`),
   KEY `ProductID` (`ProductID`),
   KEY `UserID` (`UserID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `reviews`
 --
 
+INSERT INTO `reviews` (`ReviewID`, `UserID`, `ProductID`, `Rating`, `Comment`) VALUES
+(4, 2, 1, 10, 'Top+quality+rock%21'),
+(5, 2, 4, 5, 'It%27s+ok%2C+i+guess'),
+(6, 3, 1, 2, 'Rock+was+DOA+%3A+-+%28'),
+(7, 3, 3, 8, 'Who+can%27t+use+more+sand%3F'),
+(8, 4, 1, 5, 'I%27ve+seen+much+higher+quality+rocks+for+sale+on+that+other+site+for+the+same+price');
 
 -- --------------------------------------------------------
 

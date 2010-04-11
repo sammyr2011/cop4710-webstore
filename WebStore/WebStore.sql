@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 08, 2010 at 08:14 PM
--- Server version: 5.1.44
+-- Generation Time: Apr 11, 2010 at 09:49 PM
+-- Server version: 5.1.45
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -25,12 +25,18 @@ CREATE TABLE IF NOT EXISTS `manufacturer` (
   `CompanyName` varchar(128) NOT NULL,
   PRIMARY KEY (`mID`),
   UNIQUE KEY `mID` (`mID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `manufacturer`
 --
 
+INSERT INTO `manufacturer` (`mID`, `Website`, `CompanyName`) VALUES
+(1, 'http://acme.example.com', 'Acme, inc.'),
+(2, 'http://widgetco.example.com', 'Widget Corp'),
+(3, 'http://123.example.com', '123 Warehousing'),
+(4, 'http://democo.example.com', 'Demo Company'),
+(5, 'http://smithco.example.com', 'Smith and Co.');
 
 -- --------------------------------------------------------
 
@@ -48,12 +54,17 @@ CREATE TABLE IF NOT EXISTS `product` (
   `Description` text NOT NULL,
   PRIMARY KEY (`ProductID`),
   KEY `ManufacturerID` (`ManufacturerID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `product`
 --
 
+INSERT INTO `product` (`ProductID`, `Name`, `ManufacturerID`, `Price`, `Stock`, `Image`, `Description`) VALUES
+(1, 'Rock', 2, 2, 1000, 'missing.jpg', 'It''s a rock'),
+(2, 'Paper', 1, 0.1, 1, 'missing.jpg', 'Acme paper'),
+(3, 'Sand (10lbs)', 3, 5, 5, 'missing.jpg', 'Sand, 10 pounds of it'),
+(4, 'Slightly used paper', 1, 0.05, 10, 'missing.jpg', 'It''s slightly used paper');
 
 -- --------------------------------------------------------
 
@@ -64,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 CREATE TABLE IF NOT EXISTS `purchases` (
   `PurchaseID` int(11) NOT NULL AUTO_INCREMENT,
   `UserID` int(11) NOT NULL,
-  `ProductID` int(11) NOT NULL,
+  `ProductID` int(11) DEFAULT NULL,
   `Price` double NOT NULL,
   `ShippingAddress` varchar(256) NOT NULL,
   `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -72,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   PRIMARY KEY (`PurchaseID`),
   KEY `UserID` (`UserID`),
   KEY `ProductID` (`ProductID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `purchases`
@@ -94,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   PRIMARY KEY (`ReviewID`),
   KEY `ProductID` (`ProductID`),
   KEY `UserID` (`UserID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `reviews`
@@ -119,12 +130,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `IsAdmin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`UserID`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `users`
 --
 
+INSERT INTO `users` (`UserID`, `Username`, `Password`, `Email`, `FirstName`, `LastName`, `Address`, `Phone`, `IsAdmin`) VALUES
+(1, 'admin', '912ec803b2ce49e4a541068d495ab570', 'GarrettMSteigerwald@example.com', 'Garrett', 'Steigerwald', '4251 Ryder AvenueSeattle, WA 98109 ', '425-276-8066', 1),
+(2, 'foo', 'ef238ea00a26528de40ff231e5a97f50', 'LauraEMoore@example.com', 'Laura', 'Moore', '1270 Snider StreetCheraw, CO 81030', '719-853-7651', 0),
+(3, 'bar', 'e368d4df326079b608d2849ef3ef9a32', 'MarkRBroadway@example.com', 'Mark', 'Broadway', '1518 Whiteman StreetCamden, NJ 08102 ', '609-935-2590', 0),
+(4, 'baz', '88eb8c06eb2e83ff875e0abe15aee92f', 'GloriaTBowman@example.com', 'Gloria', 'Bowman', '1198 Burning Memory LanePhiladelphia, PA 19103', '215-359-3148', 0);
 
 --
 -- Constraints for dumped tables
@@ -140,12 +156,12 @@ ALTER TABLE `product`
 -- Constraints for table `purchases`
 --
 ALTER TABLE `purchases`
-  ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`),
-  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
+  ADD CONSTRAINT `purchases_ibfk_4` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `purchases_ibfk_3` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`),
-  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `product` (`ProductID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE;

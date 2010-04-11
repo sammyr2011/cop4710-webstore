@@ -5,6 +5,7 @@
 
 <struts>
 	<constant name="struts.devMode" value="false" />
+	<constant name="struts.custom.i18n.resources" value="global-messages" />
 
 	<!--
 	Default namespace
@@ -129,7 +130,7 @@
 		<default-interceptor-ref name="secureAdminStack" />
 
 		<action name="addUser" class="ws.actions.secure.admin.AddUser">
-			<result>addUser.jsp</result>
+			<result>addUserSuccess.jsp</result>
 			<result name="input">addUser.jsp</result>
 		</action>
 
@@ -138,9 +139,38 @@
 		</action>
 
 		<action name="editUser" class="ws.actions.secure.admin.EditUser">
-			<result>editUserSuccess.jsp</result>
+			<result>addUserSuccess.jsp</result>
 			<result name="input">editUser.jsp</result>
 		</action>
+
+		<action name="addProduct" class="ws.actions.secure.admin.AddProduct">
+			<result>addProductSuccess.jsp</result>
+			<result name="input">addProduct.jsp</result>
+		</action>
+
+		<action name="editProducts" class="ws.actions.secure.ViewProducts">
+			<result>editProducts.jsp</result>
+		</action>
+
+		<action name="editProduct" class="ws.actions.secure.admin.EditProduct">
+			<result>addProductSuccess.jsp</result>
+			<result name="input">editProduct.jsp</result>
+		</action>
+
+		<action name="viewManufacturers" class="ws.actions.secure.admin.ViewManufacturers">
+			<result>viewManufacturers.jsp</result>
+		</action>
+
+		<action name="addManufacturer" class="ws.actions.secure.admin.AddManufacturer">
+			<result>addManufacturerSuccess.jsp</result>
+			<result name="input">addManufacturer.jsp</result>
+		</action>
+
+		<action name="editManufacturer" class="ws.actions.secure.admin.EditManufacturer">
+			<result>addManufacturerSuccess.jsp</result>
+			<result name="input">editManufacturer.jsp</result>
+		</action>
+
 
 	</package>
 </struts>

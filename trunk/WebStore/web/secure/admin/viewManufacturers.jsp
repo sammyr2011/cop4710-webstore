@@ -6,20 +6,21 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Edit Successful</title>
-		<link rel="stylesheet" type="text/css" href="<s:url value="/"/>main.css">
+		<title>Generic title</title>
+		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
     </head>
     <body>
 		<div class="content">
 			<s:include value="/header.jsp" />
 			<div class="sectionHeader">
-				<p class="sectionHeaderText">Successfully updated user <i><s:property value="username"/></i></p>
+				<p class="sectionHeaderText">Manufacturers</p>
 			</div>
-		<pre>
-Name: <s:property value="firstName"/> <s:property value="lastName"/>
-Email: <s:property value="email"/>
-Admin: <s:property value="admin"/>
-		</pre>
+
+			<ol style="text-align: left;">
+				<s:iterator value="manufacturers" var="manufacturer">
+					<li><a href="<s:url action="editManufacturer"><s:param name="manufacturerId" value="#manufacturer.id"/></s:url>"><s:property value="#manufacturer.name"/></a></li>
+				</s:iterator>
+			</ol>
 		</div>
     </body>
 </html>

@@ -138,12 +138,21 @@ public class Product
 	}
 
 	/**
-	 * Filename of the product image
+	 * Filename of the product image with default path included
 	 * @return the image
 	 */
 	public String getImage()
 	{
 		return Constants.PRODUCT_IMAGE_PATH + image;
+	}
+
+	/**
+	 * Filename of the product image without extra path information
+	 * @return the image
+	 */
+	public String getRawImage()
+	{
+		return image;
 	}
 
 	/**

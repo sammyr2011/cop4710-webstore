@@ -13,19 +13,15 @@
 		<div class="content">
 			<s:include value="/header.jsp" />
 			<div class="sectionHeader">
-				<p class="sectionHeaderText">Products</p>
+				<p class="sectionHeaderText">Add Manufacturer</p>
 			</div>
 
-			<ol style="text-align: left;">
-				<s:iterator value="products" var="product">
-					<li>
-						<a href="<s:url action="viewProduct"><s:param name="productId" value="#product.id"/></s:url>"><s:property value="#product.name"/></a>
-						<s:text name="format.currency">
-							<s:param value="#product.price"/>
-						</s:text>
-					</li>
-				</s:iterator>
-			</ol>
+			<s:form>
+				<s:textfield name="name" label="Name" maxLength="%{@ws.utils.Constants@LEN_MANUFACTURER_NAME}"/>
+				<s:textfield name="website" label="Website" maxLength="%{@ws.utils.Constants@LEN_MANUFACTURER_WEBSITE}"/>
+				<s:hidden name="submit" value="true"  />
+				<s:submit style="width: auto;"  />
+			</s:form>
 		</div>
     </body>
 </html>

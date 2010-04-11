@@ -13,19 +13,19 @@
 		<div class="content">
 			<s:include value="/header.jsp" />
 			<div class="sectionHeader">
-				<p class="sectionHeaderText">Products</p>
+				<s:if test="%{manufacturerId}">
+					<p class="sectionHeaderText">Successfully Updated <i><s:property value="name"/></i></p>
+				</s:if>
+				<s:else>
+					<p class="sectionHeaderText">Successfully Added <i><s:property value="name"/></i></p>
+				</s:else>
 			</div>
 
-			<ol style="text-align: left;">
-				<s:iterator value="products" var="product">
-					<li>
-						<a href="<s:url action="viewProduct"><s:param name="productId" value="#product.id"/></s:url>"><s:property value="#product.name"/></a>
-						<s:text name="format.currency">
-							<s:param value="#product.price"/>
-						</s:text>
-					</li>
-				</s:iterator>
-			</ol>
+			<pre>
+Name: <s:property value="name"/>
+Website: <s:property value="website"/>
+			</pre>
+
 		</div>
     </body>
 </html>

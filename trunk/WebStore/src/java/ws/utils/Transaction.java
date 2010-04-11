@@ -158,6 +158,15 @@ public class Transaction
 	}
 
 	/**
+	 * Name of the product transaction is for
+	 * @return the product name
+	 */
+	public String getProductName()
+	{
+		return Database.getInstance().getProductName(getProductId());
+	}
+
+	/**
 	 * Date of transaction
 	 * @return the date
 	 */

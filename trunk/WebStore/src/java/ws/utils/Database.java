@@ -274,6 +274,19 @@ public class Database
 	}
 
 	/**
+	 * Returns the product's name
+	 * @param id - ID of product
+	 * @return Name of product
+	 */
+	public String getProductName(int id)
+	{
+		// TODO: Would be much better to get just the name from the database
+		Product p = getProduct(id);
+
+		return p.getName();
+	}
+
+	/**
 	 * Returns the manufacturer with specified ID
 	 * @param id - Unique ID of manufacturer to get
 	 * @return null on failure, product on success
@@ -692,6 +705,13 @@ public class Database
 		return usernames;
 	}
 
+	public boolean DeleteProduct(int productId)
+	{
+		String query = "DELETE FROM `webstore`.`product` WHERE `product`.`ProductID` = " + productId +" LIMIT 1";
+
+		return executeQueryUpdate(query);
+	}
+
 	/**
 	 * Checks to see if a username already exists
 	 * @param username - Username to check to see if it's a duplicate
@@ -712,7 +732,7 @@ public class Database
 	 */
 	public boolean checkForExistingReview(int productId, int userId)
 	{
-		String query = String.format("SELECT 1 FROM `reviews` WHERE `ReviewId` = '" + productId + "' AND `UserId` = '" + userId + "'  LIMIT 1;");
+		String query = String.format("SELECT 1 FROM `reviews` WHERE `ProductId` = '" + productId + "' AND `UserId` = '" + userId + "'  LIMIT 1;");
 
 		return executeQuerySingleResultInt(query) != null;
 	}

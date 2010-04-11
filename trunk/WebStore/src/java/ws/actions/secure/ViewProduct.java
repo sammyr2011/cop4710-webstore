@@ -151,6 +151,6 @@ public class ViewProduct extends ActionSupport
 			averageRating = average / reviews.size();
 		}
 
-		return averageRating;
+		return averageRating / 10.0;
 	}
 }

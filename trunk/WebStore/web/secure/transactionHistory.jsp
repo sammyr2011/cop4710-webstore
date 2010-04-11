@@ -25,6 +25,7 @@
 								<s:param value="#transaction.date" />
 							</s:text>
 						</a>
+						- <s:property value="#transaction.productName"/> -
 						<s:text name="format.currency">
 							<s:param value="#transaction.price"/>
 						</s:text>

@@ -14,9 +14,12 @@
 			<s:include value="/header.jsp" />
 
 			<div class="sectionHeader">
-				<s:if test="%{productId}">
-					<p class="sectionHeaderText">Successfully Updated <i><s:property value="name"/></i></p>
+				<s:if test="%{product == null}">
+					<p class="sectionHeaderText">Successfully Deleted <i><s:property value="name"/></i></p>
 				</s:if>
+				<s:elseif test="%{productId}">
+					<p class="sectionHeaderText">Successfully Updated <i><s:property value="name"/></i></p>
+				</s:elseif>
 				<s:else>
 					<p class="sectionHeaderText">Successfully Added <i><s:property value="name"/></i></p>
 				</s:else>

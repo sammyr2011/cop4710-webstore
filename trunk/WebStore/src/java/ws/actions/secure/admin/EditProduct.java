@@ -67,6 +67,13 @@ public class EditProduct extends ActionSupport
 			return ERROR;
 		}
 
+		if(isDelete())
+		{
+			Database.getInstance().DeleteProduct(getProductId());
+			product = null;
+			return SUCCESS;
+		}
+
 		if (!isSubmit())
 		{
 			return INPUT;
@@ -88,6 +95,10 @@ public class EditProduct extends ActionSupport
 	public void validate()
 	{
 		if (!isSubmit())
+		{
+			return;
+		}
+		if(isDelete())
 		{
 			return;
 		}

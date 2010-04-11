@@ -30,6 +30,23 @@ public class ViewProduct extends ActionSupport
 	private Double averageRating;
 
 	/**
+	 * @return
+	 * @throws Exception
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
+	@Override
+	public String execute() throws Exception
+	{
+		if(getProduct() == null)
+		{
+			addActionError("Invalid product");
+			return ERROR;
+		}
+
+		return SUCCESS;
+	}
+
+	/**
 	 * Product being viewed
 	 * @return the product
 	 */
@@ -61,9 +78,16 @@ public class ViewProduct extends ActionSupport
 	 * ID of product to view
 	 * @param productId the productId to set
 	 */
-	public void setProductId(Integer productId)
+	public void setProductId(String productId)
 	{
-		this.productId = productId;
+		try
+		{
+			this.productId = Integer.parseInt(productId);
+		}
+		catch (NumberFormatException numberFormatException)
+		{
+			this.productId = null;
+		}
 	}
 
 	/**

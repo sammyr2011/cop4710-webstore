@@ -24,6 +24,7 @@ public class ViewProducts extends ActionSupport
 	@Override
 	public String execute() throws Exception
 	{
+		// TODO: Searching, should already be implemented in database just needs interface for it
 		return super.execute();
 	}
 

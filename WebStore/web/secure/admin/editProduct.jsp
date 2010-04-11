@@ -25,6 +25,7 @@
 				<s:textfield name="description" label="Description" maxLength="" value="%{product.description}" />
 				<s:hidden name="submit" value="true"  />
 				<s:hidden name="productId" value="%{productId}"/>
+				<s:checkbox name="delete" label="Delete Product"/>
 				<s:submit style="width: auto;"  />
 			</s:form>
 		</div>

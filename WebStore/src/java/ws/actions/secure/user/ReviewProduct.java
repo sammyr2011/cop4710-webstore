@@ -134,9 +134,16 @@ public class ReviewProduct extends ActionSupport implements SessionAware
 	 * Rating given to product
 	 * @param rating the rating to set
 	 */
-	public void setRating(Integer rating)
+	public void setRating(String rating)
 	{
-		this.rating = rating;
+		try
+		{
+			this.rating = Integer.parseInt(rating);
+		}
+		catch (NumberFormatException numberFormatException)
+		{
+			this.rating = null;
+		}
 	}
 
 	/**
@@ -170,9 +177,16 @@ public class ReviewProduct extends ActionSupport implements SessionAware
 	 * ID of the product being reviewed
 	 * @param productId the productId to set
 	 */
-	public void setProductId(Integer productId)
+	public void setProductId(String productId)
 	{
-		this.productId = productId;
+		try
+		{
+			this.productId = Integer.parseInt(productId);
+		}
+		catch (NumberFormatException numberFormatException)
+		{
+			this.productId = null;
+		}
 	}
 
 	/**

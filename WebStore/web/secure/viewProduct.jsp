@@ -69,7 +69,13 @@
 					<td width="50%" valign="top">
 						<div class="rightProductView">
 							<div class="viewIdeasIdea">
-								Average Rating: <s:property value="averageRating" />
+								<b>Average Rating</b>:
+								<s:if test="averageRating == null">
+									Not available
+								</s:if>
+								<s:else>
+									<s:property value="averageRating" />
+								</s:else>
 								<s:iterator value="reviews" var="review">
 									<ul>
 										<li>

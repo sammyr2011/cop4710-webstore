@@ -41,6 +41,10 @@ public class EditProduct extends ActionSupport
 	 */
 	private boolean submit;
 	/**
+	 * Flag to determine if product is to be deleted
+	 */
+	private boolean delete;
+	/**
 	 * ID of the product to edit if we are editing a product
 	 */
 	private Integer productId;
@@ -320,5 +324,23 @@ public class EditProduct extends ActionSupport
 		}
 
 		return product;
+	}
+
+	/**
+	 * Flag to determine if product is to be deleted
+	 * @return the delete
+	 */
+	public boolean isDelete()
+	{
+		return delete;
+	}
+
+	/**
+	 * Flag to determine if product is to be deleted
+	 * @param delete the delete to set
+	 */
+	public void setDelete(String delete)
+	{
+		this.delete = Boolean.parseBoolean(delete);
 	}
 }

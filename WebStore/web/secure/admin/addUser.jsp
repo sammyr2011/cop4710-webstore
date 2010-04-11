@@ -20,7 +20,7 @@
     <body>
 		<div class="content">
 			<s:include value="/header.jsp" />
-			<div align="center">
+			<div>
 				<div class="sectionHeader">
 					<p class="sectionHeaderText">Add User</p>
 				</div>

@@ -26,6 +26,10 @@ public class Review
 	 * Review text
 	 */
 	private String comment;
+	/**
+	 * Name of the user who made the review
+	 */
+	private String userName;
 
 	/**
 	 *
@@ -123,5 +127,19 @@ public class Review
 	public void setComment(String comment)
 	{
 		this.comment = comment;
+	}
+
+	/**
+	 * Name of the user who made the review
+	 * @return the userName
+	 */
+	public String getUserName()
+	{
+		if (userName == null)
+		{
+			userName = Database.getInstance().getUserName(getUserId());
+		}
+
+		return userName;
 	}
 }

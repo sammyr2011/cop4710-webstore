@@ -17,7 +17,6 @@ import org.apache.struts2.dispatcher.SessionMap;
  */
 public class Utils
 {
-
 	/**
 	 * Sanitizes a string for storing. Encodes all non alphanumeric characters
 	 * @param input - String to be sanitized
@@ -84,16 +83,6 @@ public class Utils
 		return sb.toString();
 	}
 
-	/**
-	 * Creates a hash out of supplied text after being made lowercase and with whitespace removed
-	 * @param text - Text to create a hash of
-	 * @return Hashed of text
-	 */
-	public static String hashStrippedText(String text)
-	{
-		return hash(text.toLowerCase().replaceAll("\\s+", ""));
-	}
-
 	// TODO: Check thread saftey
 	/**
 	 * Forces the current session to login as a different user
@@ -106,7 +95,7 @@ public class Utils
 	{
 		Account newUser = Database.getInstance().getUser(username, password);
 
-		if(newUser == null)
+		if (newUser == null)
 		{
 			return false;
 		}

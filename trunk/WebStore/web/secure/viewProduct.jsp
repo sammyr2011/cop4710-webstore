@@ -12,15 +12,9 @@
 			table.transactionTable {
 				padding: 5px;
 			}
-			tr.transactionTableRow {
-
-			}
 			td.transactionTableColLabel {
 				text-align: right;
 				font-weight: bold;
-			}
-			td.transactionTableColData {
-
 			}
 		</style>
     </head>
@@ -43,29 +37,52 @@
 				</s:form>
 			</s:if>
 
-			<img width="300" src="<s:url value="%{product.image}"/>" alt="Image goes here"/>
-			<table class="transactionTable">
-				<tr class="transactionTableRow">
-					<td class="transactionTableColLabel">Product name: </td>
-					<td class="transactionTableColData"><s:property value="%{product.name}"/></td>
-				</tr>
-				<tr class="transactionTableRow">
-					<td class="transactionTableColLabel">Description: </td>
-					<td class="transactionTableColData"><s:property value="%{product.description}"/></td>
-				</tr>
-				<tr class="transactionTableRow">
-					<td class="transactionTableColLabel">Price:</td>
-					<td class="transactionTableColData">$<s:property value="%{product.price}"/> (Shipping: TODO)</td>
-				</tr>
-				<tr class="transactionTableRow">
-					<td class="transactionTableColLabel">Stock:</td>
-					<td class="transactionTableColData"><s:property value="%{product.stock}"/></td>
-				</tr>
-				<tr class="transactionTableRow">
-					<td class="transactionTableColLabel">Manufacturer:</td>
-					<td class="transactionTableColData"><s:property value="%{manufacturerName}"/></td>
+			<table width="100%">
+				<tr>
+					<td width="50%">
+						<div class="leftProductView">
+							<img width="300" src="<s:url value="%{product.image}"/>" alt="Image goes here"/>
+							<table class="transactionTable">
+								<tr class="transactionTableRow">
+									<td class="transactionTableColLabel">Product name: </td>
+									<td class="transactionTableColData"><s:property value="%{product.name}"/></td>
+								</tr>
+								<tr class="transactionTableRow">
+									<td class="transactionTableColLabel">Description: </td>
+									<td class="transactionTableColData"><s:property value="%{product.description}"/></td>
+								</tr>
+								<tr class="transactionTableRow">
+									<td class="transactionTableColLabel">Price:</td>
+									<td class="transactionTableColData">$<s:property value="%{product.price}"/> (Shipping: TODO)</td>
+								</tr>
+								<tr class="transactionTableRow">
+									<td class="transactionTableColLabel">Stock:</td>
+									<td class="transactionTableColData"><s:property value="%{product.stock}"/></td>
+								</tr>
+								<tr class="transactionTableRow">
+									<td class="transactionTableColLabel">Manufacturer:</td>
+									<td class="transactionTableColData"><s:property value="%{manufacturerName}"/></td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td width="50%" valign="top">
+						<div class="rightProductView">
+							<div class="viewIdeasIdea">
+								Average Rating: <s:property value="averageRating" />
+								<s:iterator value="reviews" var="review">
+									<ul>
+										<li>
+											<b><s:property value="#review.userName" /></b> - <s:property value="#review.rating"/> / 10<br/>
+											<s:property value="#review.comment"/>
+										</li>
+									</ul>
+								</s:iterator>
+							</div>
+						</div>
+					</td>
 				</tr>
 			</table>
 		</div>
-    </body>
+	</body>
 </html>

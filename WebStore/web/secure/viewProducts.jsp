@@ -23,6 +23,9 @@
 						<s:text name="format.currency">
 							<s:param value="#product.price"/>
 						</s:text>
+						<s:if test="#product.stock <= 0">
+							- <b>Sold out</b>
+						</s:if>
 					</li>
 				</s:iterator>
 			</ol>

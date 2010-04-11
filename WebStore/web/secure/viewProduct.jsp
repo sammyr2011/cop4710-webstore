@@ -27,10 +27,15 @@
 			</div>
 
 			<s:if test="!#session.user.admin">
-				<s:form action="user/buyProduct">
-					<s:hidden name="productId" value="%{product.id}"/>
-					<s:submit style="width: auto;" value="Buy product" />
-				</s:form>
+				<s:if test="product.stock > 0">
+					<s:form action="user/buyProduct">
+						<s:hidden name="productId" value="%{product.id}"/>
+						<s:submit style="width: auto;" value="Buy product" />
+					</s:form>
+				</s:if>
+				<s:else>
+					<b>Sold out</b>
+				</s:else>
 				<s:form action="user/reviewProduct">
 					<s:hidden name="productId" value="%{product.id}"/>
 					<s:submit style="width: auto;" value="Review product" />
@@ -53,7 +58,15 @@
 								</tr>
 								<tr class="transactionTableRow">
 									<td class="transactionTableColLabel">Price:</td>
-									<td class="transactionTableColData">$<s:property value="%{product.price}"/> (Shipping: TODO)</td>
+									<td class="transactionTableColData">
+										<s:text name="format.currency">
+											<s:param value="%{product.price}"/>
+										</s:text>
+									</td>
+								</tr>
+								<tr class="transactionTableRow">
+									<td class="transactionTableColLabel">Shipping:</td>
+									<td class="transactionTableColData">TODO</td>
 								</tr>
 								<tr class="transactionTableRow">
 									<td class="transactionTableColLabel">Stock:</td>
@@ -74,7 +87,9 @@
 									Not available
 								</s:if>
 								<s:else>
-									<s:property value="averageRating" />
+									<s:text name="format.percent">
+										<s:param value="averageRating" />
+									</s:text>
 								</s:else>
 								<s:iterator value="reviews" var="review">
 									<ul>

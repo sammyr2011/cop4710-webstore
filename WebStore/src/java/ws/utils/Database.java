@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -241,6 +239,19 @@ public class Database
 		}
 
 		return fetchedUsers.get(0);
+	}
+
+	/**
+	 * Returns the user's name
+	 * @param userId - ID of user
+	 * @return Name of user
+	 */
+	public String getUserName(int userId)
+	{
+		// TODO: Would be much better to get just the name from the database
+		Account user = getUser(userId);
+
+		return user.userName;
 	}
 
 	/**

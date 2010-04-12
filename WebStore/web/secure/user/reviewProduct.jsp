@@ -23,8 +23,8 @@ Price: <s:property value="%{product.price}"/>
 Shipping: TODO
 			</pre>
 			<s:form>
-				<s:textfield name="comment" />
-				<s:select name="rating" list="{1,2,3,4,5,6,7,8,9,10}" label="asdf" />
+				<s:textfield name="comment" label="Comment" />
+				<s:select name="rating" list="{1,2,3,4,5,6,7,8,9,10}" label="Rating" />
 				<s:hidden name="submit" value="true" />
 				<s:hidden name="productId" value="%{product.id}"/>
 				<s:submit style="width: auto;" value="Confirm Purchase" />

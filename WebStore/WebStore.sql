@@ -61,10 +61,10 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`ProductID`, `Name`, `ManufacturerID`, `Price`, `Stock`, `Image`, `Description`) VALUES
-(1, 'Rock', 2, 2, 997, 'missing.jpg', 'It''s a rock'),
-(2, 'Paper', 1, 0.1, 1, 'missing.jpg', 'Acme paper'),
-(3, 'Sand (10lbs)', 3, 5, 3, 'missing.jpg', 'Sand, 10 pounds of it'),
-(4, 'Slightly used paper', 1, 0.05, 8, 'missing.jpg', 'It''s slightly used paper');
+(1, 'Rock', 2, 2, 997, 'rock.jpg', 'It''s a rock'),
+(2, 'Paper', 1, 0.1, 1, 'paper.jpg', 'Acme paper'),
+(3, 'Sand (10 lbs)', 3, 5, 3, 'sand.jpg', 'Sand, 10 pounds of it'),
+(4, 'Slightly used paper', 1, 0.05, 8, 'usedpaper.jpg', 'It''s slightly used paper');
 
 -- --------------------------------------------------------
 

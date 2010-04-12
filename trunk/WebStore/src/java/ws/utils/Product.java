@@ -1,5 +1,7 @@
 package ws.utils;
 
+import java.util.Vector;
+
 /**
  *
  * @author Team 10
@@ -34,6 +36,18 @@ public class Product
 	 * Description of the product
 	 */
 	private String description;
+	/**
+	 * Average product rating
+	 */
+	private Double averageRating;
+	/**
+	 * Manufacturer's name
+	 */
+	private String manufacturerName;
+	/**
+	 * List of reviews for this product
+	 */
+	private Vector<Review> reviews;
 
 	/**
 	 *
@@ -180,5 +194,47 @@ public class Product
 	public void setDescription(String description)
 	{
 		this.description = description;
+	}
+
+	/**
+	 * Average rating
+	 * @return average rating for the product
+	 */
+	public Double getAverageRating()
+	{
+		if(averageRating == null)
+		{
+			averageRating = Database.getInstance().getReviewRating(getId());
+		}
+
+		return averageRating;
+	}
+
+	/**
+	 * Manufacturer's name
+	 * @return Manufacturer's name
+	 */
+	public String getManufacturerName()
+	{
+		if (manufacturerName == null)
+		{
+			manufacturerName = Database.getInstance().getManufacturerName(getManufacturerId());
+		}
+
+		return manufacturerName;
+	}
+
+	/**
+	 * List of all reviews for this product
+	 * @return List of reviews for this product
+	 */
+	public Vector<Review> getReviews()
+	{
+		if (reviews == null)
+		{
+			reviews = Database.getInstance().getReviews(getId());
+		}
+
+		return reviews;
 	}
 }

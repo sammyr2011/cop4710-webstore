@@ -248,10 +248,9 @@ public class Database
 	 */
 	public String getUserName(int userId)
 	{
-		// TODO: Would be much better to get just the name from the database
-		Account user = getUser(userId);
+		String query = "SELECT `username` FROM `users` WHERE `UserId` = " + userId + " LIMIT 1 ;";
 
-		return user.userName;
+		return executeQuerySingleResult(query).toString();
 	}
 
 	/**
@@ -280,10 +279,9 @@ public class Database
 	 */
 	public String getProductName(int id)
 	{
-		// TODO: Would be much better to get just the name from the database
-		Product p = getProduct(id);
+		String query = "SELECT `Name` FROM `product` WHERE `ProductId` = '" + id + "' LIMIT 1 ;";
 
-		return p.getName();
+		return executeQuerySingleResult(query).toString();
 	}
 
 	/**
@@ -312,10 +310,9 @@ public class Database
 	 */
 	public String getManufacturerName(int id)
 	{
-		// TODO: Would be much better to get just the name from the database
-		Manufacturer m = getManufacturer(id);
+		String query = "SELECT `CompanyName` FROM `manufacturer` WHERE `mId` = '" + id + "' LIMIT 1 ;";
 
-		return m.getName();
+		return executeQuerySingleResult(query).toString();
 	}
 
 	/**
@@ -335,6 +332,20 @@ public class Database
 		}
 
 		return fetchedData.get(0);
+	}
+
+	public Double getReviewRating(int id)
+	{
+		String query = "SELECT AVG( `Rating` ) FROM `reviews` WHERE `ProductID` = '" + id + "' LIMIT 1 ;";
+
+		Double result = Double.parseDouble(executeQuerySingleResult(query).toString());
+
+		if(result != null)
+		{
+			result /= 10.0;
+		}
+		
+		return result;
 	}
 
 	/**
@@ -721,7 +732,7 @@ public class Database
 	{
 		String query = String.format("SELECT 1 FROM `users` WHERE `username` = '" + Utils.sanitize(username) + "'  LIMIT 1;");
 
-		return executeQuerySingleResultInt(query) != null;
+		return executeQuerySingleResult(query) != null;
 	}
 
 	/**
@@ -734,7 +745,7 @@ public class Database
 	{
 		String query = String.format("SELECT 1 FROM `reviews` WHERE `ProductId` = '" + productId + "' AND `UserId` = '" + userId + "'  LIMIT 1;");
 
-		return executeQuerySingleResultInt(query) != null;
+		return executeQuerySingleResult(query) != null;
 	}
 
 	/**
@@ -742,7 +753,7 @@ public class Database
 	 * @param query - SQL Query to execute
 	 * @return Integer result of query. Null on failure.
 	 */
-	private Integer executeQuerySingleResultInt(String query)
+	private Object executeQuerySingleResult(String query)
 	{
 		System.out.println("Executing: " + query.toString());
 		Connection connection = null;
@@ -760,12 +771,11 @@ public class Database
 				return null;
 			}
 
-			// Would use result.getObject(1), but Object <-> Integer breaks my copy of java in bad ways
-			return result.getInt(1);
+			return result.getObject(1);
 		}
 		catch (Exception ex)
 		{
-			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, "Failed to executeQuerySingleResultInt", ex);
+			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, "Failed to executeQuerySingleResult", ex);
 		}
 		finally
 		{

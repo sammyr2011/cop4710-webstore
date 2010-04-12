@@ -26,14 +26,7 @@ public class ViewTransaction extends ActionSupport implements SessionAware
 	 * Transaction to view
 	 */
 	private Transaction transaction;
-	/**
-	 * Product of the transaction
-	 */
-	private Product product;
-	/**
-	 * User who made the transaction
-	 */
-	private Account transactionUser;
+
 	
 	/**
 	 * @return
@@ -124,38 +117,4 @@ public class ViewTransaction extends ActionSupport implements SessionAware
 		return transaction;
 	}
 
-	/**
-	 * @return the product
-	 */
-	public Product getProduct()
-	{
-		if (product == null)
-		{
-			if (getTransaction() == null)
-			{
-				return null;
-			}
-
-			product = Database.getInstance().getProduct(transaction.getProductId());
-		}
-
-		return product;
-	}
-
-	/**
-	 * @return the customer
-	 */
-	public Account getTransactionUser()
-	{
-		if (transactionUser == null)
-		{
-			if (getTransaction() == null)
-			{
-				return null;
-			}
-
-			transactionUser = Database.getInstance().getUser(getTransaction().getUserId());
-		}
-		return transactionUser;
-	}
 }

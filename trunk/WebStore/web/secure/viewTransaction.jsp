@@ -44,7 +44,7 @@
 				</tr>
 				<tr class="transactionTableRow">
 					<td class="transactionTableColLabel">Price:</td>
-					<td class="transactionTableColData"><s:text name="format.currency"><s:param value="%{transaction.price}"/></s:text>(Shipping: <s:text name="format.currency"><s:param value="%{transaction.shippingPrice}"/></s:text>)</td>
+					<td class="transactionTableColData"><s:text name="format.currency"><s:param value="%{transaction.price}"/></s:text> (Shipping: <s:text name="format.currency"><s:param value="%{transaction.shippingPrice}"/></s:text>)</td>
 				</tr>
 				<tr class="transactionTableRow">
 					<td class="transactionTableColLabel">Shipping Address:</td>

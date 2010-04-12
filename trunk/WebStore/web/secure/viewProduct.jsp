@@ -66,7 +66,7 @@
 								</tr>
 								<tr class="transactionTableRow">
 									<td class="transactionTableColLabel">Shipping:</td>
-									<td class="transactionTableColData">TODO</td>
+									<td class="transactionTableColData">$5.00</td>
 								</tr>
 								<tr class="transactionTableRow">
 									<td class="transactionTableColLabel">Stock:</td>
@@ -82,9 +82,8 @@
 					<td width="50%" valign="top">
 						<div class="rightProductView">
 							<div class="viewIdeasIdea">
-								(TODO: fix null check)<br/>
-								<b>Average Rating</b>: 
-								<s:if test="%{product.averageRating} == null">
+								<b>Average Rating</b>:
+								<s:if test="product.reviews.isEmpty">
 									Not available
 								</s:if>
 								<s:else>

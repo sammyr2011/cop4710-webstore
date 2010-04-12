@@ -15,12 +15,12 @@
 			<div class="sectionHeader">
 				<p class="sectionHeaderText">Confirmation</p>
 			</div>
-			
+
 			<pre>
 Item: <s:property value="%{product.name}"/>
 Description: <s:property value="%{product.description"/>
 Price: <s:property value="%{product.price}"/>
-Shipping: TODO
+Shipping: $5.00
 			</pre>
 			<s:form>
 				<s:textfield name="shippingAddress" value="%{#session.user.address}" maxLength="%{@ws.utils.Constants@LEN_USER_ADDRESS}" />

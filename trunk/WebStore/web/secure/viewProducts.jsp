@@ -41,7 +41,8 @@
 				border-bottom: gray;
 				border-bottom-width: thin;
 				border-bottom-style: dashed;
-				margin-bottom: 50px;
+				padding-bottom: 20px;
+				margin-bottom: 20px;
 			}
 			.briefProductMiddleDescriptionText {
 				text-indent: 5px;

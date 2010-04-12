@@ -35,12 +35,12 @@
 				<s:if test="#session.user.admin">
 					<tr class="transactionTableRow">
 						<td class="transactionTableColLabel">User: </td>
-						<td class="transactionTableColData"><s:property value="%{transactionUser.userName}"/></td>
+						<td class="transactionTableColData"><s:property value="%{transaction.userName}"/></td>
 					</tr>
 				</s:if>
 				<tr class="transactionTableRow">
 					<td class="transactionTableColLabel">Product name: </td>
-					<td class="transactionTableColData"><s:property value="%{product.name}"/></td>
+					<td class="transactionTableColData"><s:property value="%{transaction.productName}"/></td>
 				</tr>
 				<tr class="transactionTableRow">
 					<td class="transactionTableColLabel">Price:</td>

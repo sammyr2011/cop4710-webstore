@@ -36,6 +36,14 @@ public class Transaction
 	 * Date of transaction
 	 */
 	private Timestamp date;
+	/**
+	 * Name of product purchased
+	 */
+	private String productName;
+	/**
+	 * Name of user making transaction
+	 */
+	private String userName;
 
 	/**
 	 *
@@ -163,7 +171,26 @@ public class Transaction
 	 */
 	public String getProductName()
 	{
-		return Database.getInstance().getProductName(getProductId());
+		if(productName == null)
+		{
+			productName = Database.getInstance().getProductName(getProductId());
+		}
+		
+		return productName;
+	}
+
+	/**
+	 * Name of the user transaction is for
+	 * @return the user name
+	 */
+	public String getUserName()
+	{
+		if(userName == null)
+		{
+			userName = Database.getInstance().getUserName(getUserId());
+		}
+
+		return userName;
 	}
 
 	/**

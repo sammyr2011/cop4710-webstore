@@ -74,7 +74,7 @@
 								</tr>
 								<tr class="transactionTableRow">
 									<td class="transactionTableColLabel">Manufacturer:</td>
-									<td class="transactionTableColData"><s:property value="%{manufacturerName}"/></td>
+									<td class="transactionTableColData"><s:property value="%{product.manufacturerName}"/></td>
 								</tr>
 							</table>
 						</div>
@@ -82,16 +82,17 @@
 					<td width="50%" valign="top">
 						<div class="rightProductView">
 							<div class="viewIdeasIdea">
-								<b>Average Rating</b>:
-								<s:if test="averageRating == null">
+								(TODO: fix null check)<br/>
+								<b>Average Rating</b>: 
+								<s:if test="%{product.averageRating} == null">
 									Not available
 								</s:if>
 								<s:else>
 									<s:text name="format.percent">
-										<s:param value="averageRating" />
+										<s:param value="product.averageRating" />
 									</s:text>
 								</s:else>
-								<s:iterator value="reviews" var="review">
+								<s:iterator value="product.reviews" var="review">
 									<ul>
 										<li>
 											<b><s:property value="#review.userName" /></b> - <s:property value="#review.rating"/> / 10<br/>

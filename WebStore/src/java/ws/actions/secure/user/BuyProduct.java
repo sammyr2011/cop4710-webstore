@@ -69,7 +69,7 @@ public class BuyProduct extends ActionSupport implements SessionAware
 			return ERROR;
 		}
 
-		if(!Database.getInstance().editProduct(getProductId(), null, null, null, getProduct().getStock()-1, null, null))
+		if(!Database.getInstance().decreaseProductStock(getProductId()))
 		{
 			addActionError("Failed to decrease product stock");
 			return ERROR;

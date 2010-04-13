@@ -202,7 +202,7 @@ public class Product
 	 */
 	public Double getAverageRating()
 	{
-		if(averageRating == null)
+		if (averageRating == null)
 		{
 			averageRating = Database.getInstance().getReviewRating(getId());
 		}

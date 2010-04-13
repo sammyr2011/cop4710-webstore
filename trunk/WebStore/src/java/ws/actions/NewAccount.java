@@ -72,7 +72,7 @@ public class NewAccount extends ActionSupport
 			return ERROR;
 		}
 
-		if(!Utils.forceUserLogin(username, password))
+		if (!Utils.forceUserLogin(username, password))
 		{
 			addActionError("Unable to login as new user");
 			return ERROR;
@@ -168,7 +168,6 @@ public class NewAccount extends ActionSupport
 			addFieldError("address", "Address too long");
 		}
 	}
-
 
 	/**
 	 * @return Username of the user to add

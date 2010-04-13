@@ -47,16 +47,13 @@ public class EditUser extends ActionSupport
 	/**
 	 * Flag to determine if the user is an administrator
 	 */
-
 	private String phone;
 	private String address;
-
 	private Boolean admin;
 	/**
 	 * Flag to determine if data was submitted
 	 */
 	private boolean submit;
-
 
 	/**
 	 * @return 
@@ -101,12 +98,12 @@ public class EditUser extends ActionSupport
 		{
 			addFieldError("email", "Missing e-mail");
 		}
-		else if(getEmail().length() > Constants.LEN_USER_EMAIL)
+		else if (getEmail().length() > Constants.LEN_USER_EMAIL)
 		{
 			addFieldError("email", "Email too long");
 		}
 
-		if(!StringUtils.equals(getPassword(), getPasswordCheck()))
+		if (!StringUtils.equals(getPassword(), getPasswordCheck()))
 		{
 			addFieldError("passwordCheck", "Passwords do not match");
 		}
@@ -115,7 +112,7 @@ public class EditUser extends ActionSupport
 		{
 			addFieldError("firstName", "Missing first name");
 		}
-		else if(getFirstName().length() > Constants.LEN_USER_FIRSTNAME)
+		else if (getFirstName().length() > Constants.LEN_USER_FIRSTNAME)
 		{
 			addFieldError("firstName", "First name too long");
 		}
@@ -124,25 +121,25 @@ public class EditUser extends ActionSupport
 		{
 			addFieldError("lastName", "Missing last name");
 		}
-		else if(getLastName().length() > Constants.LEN_USER_LASTNAME)
+		else if (getLastName().length() > Constants.LEN_USER_LASTNAME)
 		{
 			addFieldError("lastName", "Last name too long");
 		}
 
-		if(StringUtils.isEmpty(getAddress()))
+		if (StringUtils.isEmpty(getAddress()))
 		{
 			addFieldError("address", "Missing address");
 		}
-		else if(getAddress().length() > Constants.LEN_USER_ADDRESS)
+		else if (getAddress().length() > Constants.LEN_USER_ADDRESS)
 		{
 			addFieldError("address", "Address too long");
 		}
 
-		if(StringUtils.isEmpty(getPhone()))
+		if (StringUtils.isEmpty(getPhone()))
 		{
 			phone = "";
 		}
-		else if(getPhone().length() > Constants.LEN_USER_PHONE)
+		else if (getPhone().length() > Constants.LEN_USER_PHONE)
 		{
 			addFieldError("phone", "Phone number too long");
 		}
@@ -176,13 +173,13 @@ public class EditUser extends ActionSupport
 	 */
 	public Account getUser()
 	{
-		if(user == null)
+		if (user == null)
 		{
-			if(userId == null)
+			if (userId == null)
 			{
 				return null;
 			}
-			
+
 			user = Database.getInstance().getUser(userId);
 		}
 

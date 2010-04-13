@@ -67,7 +67,7 @@ public class EditProduct extends ActionSupport
 			return ERROR;
 		}
 
-		if(isDelete())
+		if (isDelete())
 		{
 			Database.getInstance().DeleteProduct(getProductId());
 			product = null;
@@ -98,7 +98,7 @@ public class EditProduct extends ActionSupport
 		{
 			return;
 		}
-		if(isDelete())
+		if (isDelete())
 		{
 			return;
 		}

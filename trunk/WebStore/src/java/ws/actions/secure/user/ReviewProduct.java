@@ -49,13 +49,13 @@ public class ReviewProduct extends ActionSupport implements SessionAware
 	{
 		Account currentUser = (Account) session.get("user");
 
-		if(getProduct() == null)
+		if (getProduct() == null)
 		{
 			addActionError("Invalid product specified");
 			return ERROR;
 		}
 
-		if(Database.getInstance().checkForExistingReview(getProductId(), currentUser.getId()))
+		if (Database.getInstance().checkForExistingReview(getProductId(), currentUser.getId()))
 		{
 			addActionError("You have already reviewed this product");
 			return ERROR;
@@ -66,12 +66,12 @@ public class ReviewProduct extends ActionSupport implements SessionAware
 			return INPUT;
 		}
 
-		if(!Database.getInstance().addReview(currentUser.getId(), productId, rating, comment))
+		if (!Database.getInstance().addReview(currentUser.getId(), productId, rating, comment))
 		{
 			addActionError("Failed to add new review");
 			return ERROR;
 		}
-		
+
 		return SUCCESS;
 	}
 

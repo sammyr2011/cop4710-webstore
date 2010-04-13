@@ -44,32 +44,32 @@ public class BuyProduct extends ActionSupport implements SessionAware
 	@Override
 	public String execute() throws Exception
 	{
-		if(getProduct() == null)
+		if (getProduct() == null)
 		{
 			addActionError("Invalid product");
 			return ERROR;
 		}
 
-		if(!isSubmit())
+		if (!isSubmit())
 		{
 			return INPUT;
 		}
 
-		if(getProduct().getStock() <= 0)
+		if (getProduct().getStock() <= 0)
 		{
 			addActionError("Product is out of stock");
 			return ERROR;
 		}
 
-		Account currentUser = (Account)session.get("user");
+		Account currentUser = (Account) session.get("user");
 
-		if(!Database.getInstance().addTransaction(currentUser.getId(), product.getId(), product.getPrice(), 5.0, shippingAddress))
+		if (!Database.getInstance().addTransaction(currentUser.getId(), product.getId(), product.getPrice(), 5.0, shippingAddress))
 		{
 			addActionError("Failed to create transaction report");
 			return ERROR;
 		}
 
-		if(!Database.getInstance().decreaseProductStock(getProductId()))
+		if (!Database.getInstance().decreaseProductStock(getProductId()))
 		{
 			addActionError("Failed to decrease product stock");
 			return ERROR;
@@ -84,16 +84,16 @@ public class BuyProduct extends ActionSupport implements SessionAware
 	@Override
 	public void validate()
 	{
-		if(!isSubmit())
+		if (!isSubmit())
 		{
 			return;
 		}
 
-		if(StringUtils.isEmpty(getShippingAddress()))
+		if (StringUtils.isEmpty(getShippingAddress()))
 		{
 			addFieldError("shippingAddress", "Missing shipping address");
 		}
-		else if(getShippingAddress().length() > Constants.LEN_PURCHASE_SHIPPINGADDRESS)
+		else if (getShippingAddress().length() > Constants.LEN_PURCHASE_SHIPPINGADDRESS)
 		{
 			addFieldError("shippingAddress", "Address too long");
 		}
@@ -130,9 +130,9 @@ public class BuyProduct extends ActionSupport implements SessionAware
 	 */
 	public Product getProduct()
 	{
-		if(product == null)
+		if (product == null)
 		{
-			if(getProductId() == null)
+			if (getProductId() == null)
 			{
 				return null;
 			}
@@ -142,8 +142,6 @@ public class BuyProduct extends ActionSupport implements SessionAware
 
 		return product;
 	}
-
-
 
 	/**
 	 * Obtains access to the session map, set automatically

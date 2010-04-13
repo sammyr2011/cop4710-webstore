@@ -334,17 +334,22 @@ public class Database
 		return fetchedData.get(0);
 	}
 
+	/**
+	 * Returns the average rating for the specified review
+	 * @param id - ID of review
+	 * @return the average rating
+	 */
 	public Double getReviewRating(int id)
 	{
 		String query = "SELECT AVG( `Rating` ) FROM `reviews` WHERE `ProductID` = '" + id + "' LIMIT 1 ;";
 
 		Double result = Double.parseDouble(executeQuerySingleResult(query).toString());
 
-		if(result != null)
+		if (result != null)
 		{
 			result /= 10.0;
 		}
-		
+
 		return result;
 	}
 
@@ -478,6 +483,11 @@ public class Database
 		return executeQueryUpdate(query.toString());
 	}
 
+	/**
+	 * Decreases the stock of specified product
+	 * @param id - Product id
+	 * @return true on success
+	 */
 	public boolean decreaseProductStock(int id)
 	{
 		String query = String.format("UPDATE `product` SET `stock` = `stock` - 1 WHERE `ProductId` = %d LIMIT 1", id);
@@ -723,9 +733,14 @@ public class Database
 		return usernames;
 	}
 
+	/**
+	 * Deletes the specified product from the database
+	 * @param productId - ID of product to delete
+	 * @return true on success
+	 */
 	public boolean DeleteProduct(int productId)
 	{
-		String query = "DELETE FROM `webstore`.`product` WHERE `product`.`ProductID` = " + productId +" LIMIT 1";
+		String query = "DELETE FROM `webstore`.`product` WHERE `product`.`ProductID` = " + productId + " LIMIT 1";
 
 		return executeQueryUpdate(query);
 	}

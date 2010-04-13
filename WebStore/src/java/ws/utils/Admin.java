@@ -20,5 +20,4 @@ public class Admin extends Account
 	{
 		super(id, userName, email, firstName, lastName, phone, address, true);
 	}
-
 }

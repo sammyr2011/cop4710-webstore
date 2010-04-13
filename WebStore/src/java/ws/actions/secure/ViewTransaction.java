@@ -27,7 +27,6 @@ public class ViewTransaction extends ActionSupport implements SessionAware
 	 */
 	private Transaction transaction;
 
-	
 	/**
 	 * @return
 	 * @throws Exception
@@ -116,5 +115,4 @@ public class ViewTransaction extends ActionSupport implements SessionAware
 
 		return transaction;
 	}
-
 }

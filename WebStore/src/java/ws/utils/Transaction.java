@@ -171,11 +171,11 @@ public class Transaction
 	 */
 	public String getProductName()
 	{
-		if(productName == null)
+		if (productName == null)
 		{
 			productName = Database.getInstance().getProductName(getProductId());
 		}
-		
+
 		return productName;
 	}
 
@@ -185,7 +185,7 @@ public class Transaction
 	 */
 	public String getUserName()
 	{
-		if(userName == null)
+		if (userName == null)
 		{
 			userName = Database.getInstance().getUserName(getUserId());
 		}

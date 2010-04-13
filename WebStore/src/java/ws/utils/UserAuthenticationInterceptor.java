@@ -44,10 +44,10 @@ public class UserAuthenticationInterceptor implements Interceptor
 			return Action.LOGIN;
 		}
 
-		Account user = (Account)session.get("user");
+		Account user = (Account) session.get("user");
 
 		// Only non-administrators can access the resources in the /secure/user namespace
-		if(user.isAdmin())
+		if (user.isAdmin())
 		{
 			return "unauthorized";
 		}

@@ -1,7 +1,22 @@
 body {
 	text-align: center;
+        font-family: Calibri;
 }
 
+A:link{
+        text-decoration:none;
+        color:blue;
+}
+
+A:visited {
+        text-decoration: none;
+        color: blue;
+}
+
+A:hover {
+        text-decoration: none;
+        color: red;
+}
 /* Pre wrap source: http://users.tkk.fi/~tkarvine/pre-wrap-css3-mozilla-opera-ie.html */
 pre {
 	 white-space: pre-wrap;       /* css-3 */

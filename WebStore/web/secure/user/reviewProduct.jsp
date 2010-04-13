@@ -18,16 +18,16 @@
 
 			<pre>
 Item: <s:property value="%{product.name}"/>
-Description: <s:property value="%{product.description"/>
+Description: <s:property value="%{product.description}"/>
 Price: <s:property value="%{product.price}"/>
-Shipping: TODO
+Shipping: $5.00
 			</pre>
 			<s:form>
 				<s:textfield name="comment" label="Comment" />
 				<s:select name="rating" list="{1,2,3,4,5,6,7,8,9,10}" label="Rating" />
 				<s:hidden name="submit" value="true" />
 				<s:hidden name="productId" value="%{product.id}"/>
-				<s:submit style="width: auto;" value="Confirm Purchase" />
+				<s:submit style="width: auto;" value="Review Product" />
 			</s:form>
 		</div>
     </body>

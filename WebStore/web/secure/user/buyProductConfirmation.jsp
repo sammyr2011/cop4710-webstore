@@ -18,7 +18,7 @@
 
 			<pre>
 Item: <s:property value="%{product.name}"/>
-Description: <s:property value="%{product.description"/>
+Description: <s:property value="%{product.description}"/>
 Price: <s:property value="%{product.price}"/>
 Shipping: $5.00
 			</pre>

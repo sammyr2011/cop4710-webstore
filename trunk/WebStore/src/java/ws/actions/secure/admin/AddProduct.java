@@ -80,6 +80,10 @@ public class AddProduct extends ActionSupport
 				addFieldError("name", "Name too long");
 			}
 		}
+                else
+                {
+                        addFieldError("name","Missing Name");
+                }
 
 		if (StringUtils.isNotEmpty(getImage()))
 		{

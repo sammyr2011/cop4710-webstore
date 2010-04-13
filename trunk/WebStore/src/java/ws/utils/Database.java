@@ -281,7 +281,7 @@ public class Database
 	{
 		String query = "SELECT `Name` FROM `product` WHERE `ProductId` = '" + id + "' LIMIT 1 ;";
 
-		return executeQuerySingleResult(query).toString();
+		return Utils.unsanatize(executeQuerySingleResult(query).toString());
 	}
 
 	/**
@@ -312,7 +312,7 @@ public class Database
 	{
 		String query = "SELECT `CompanyName` FROM `manufacturer` WHERE `mId` = '" + id + "' LIMIT 1 ;";
 
-		return executeQuerySingleResult(query).toString();
+		return Utils.unsanatize(executeQuerySingleResult(query).toString());
 	}
 
 	/**

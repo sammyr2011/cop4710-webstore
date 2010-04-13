@@ -250,7 +250,7 @@ public class Database
 	{
 		String query = "SELECT `username` FROM `users` WHERE `UserId` = " + userId + " LIMIT 1 ;";
 
-		return executeQuerySingleResult(query).toString();
+		return Utils.unsanatize(executeQuerySingleResult(query).toString());
 	}
 
 	/**
@@ -476,6 +476,13 @@ public class Database
 		query.append(String.format("WHERE `ProductId` = %d LIMIT 1", id));
 
 		return executeQueryUpdate(query.toString());
+	}
+
+	public boolean decreaseProductStock(int id)
+	{
+		String query = String.format("UPDATE `product` SET `stock` = `stock` - 1 WHERE `ProductId` = %d LIMIT 1", id);
+
+		return executeQueryUpdate(query);
 	}
 
 	/**

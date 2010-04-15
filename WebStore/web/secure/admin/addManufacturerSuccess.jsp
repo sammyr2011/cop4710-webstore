@@ -22,8 +22,8 @@
 			</div>
 
 			<pre>
-Name: <s:property value="name"/>
-Website: <s:property value="website"/>
+<b>Name</b>: <s:property value="name"/>
+<b>Website</b>: <s:property value="website"/>
 			</pre>
 
 		</div>

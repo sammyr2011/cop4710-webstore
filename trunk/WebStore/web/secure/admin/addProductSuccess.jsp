@@ -28,12 +28,12 @@
 			</div>
 
 			<pre style="text-align:left;">
-Name: <s:property value="name"/>
-Description: <s:property value="description"/>
-Stock: <s:property value="stock"/>
-Price: <s:property value="price"/>
-Manufacturer: <s:property value="manufacturerId"/>
-Iamge: <s:property value="image" />
+<b>Name</b>: <s:property value="name"/>
+<b>Description</b>: <s:property value="description"/>
+<b>Stock</b>: <s:property value="stock"/>
+<b>Price</b>: <s:text name="format.currency"><s:param value="price"/></s:text>
+<b>Manufacturer</b>: <s:property value="manufacturerId"/>
+<b>Iamge</b>: <s:property value="image" />
 			</pre>
 
 			<s:if test="%{image == ''}">

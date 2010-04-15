@@ -16,8 +16,8 @@
 				<p class="sectionHeaderText">Successfully updated account information</p>
 			</div>
 		<pre>
-Name: <s:property value="firstName"/> <s:property value="lastName"/>
-Email: <s:property value="email"/>
+<b>Name</b>: <s:property value="firstName"/> <s:property value="lastName"/>
+<b>Email</b>: <s:property value="email"/>
 		</pre>
 		</div>
     </body>

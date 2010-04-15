@@ -21,9 +21,9 @@
 				</s:else>
 			</div>
 			<pre>
-Name: <s:property value="firstName"/> <s:property value="lastName"/>
-Email: <s:property value="email"/>
-Admin: <s:property value="admin"/>
+<b>Name</b>: <s:property value="firstName"/> <s:property value="lastName"/>
+<b>Email</b>: <s:property value="email"/>
+<b>Admin</b>: <s:property value="admin"/>
 			</pre>
 		</div>
     </body>

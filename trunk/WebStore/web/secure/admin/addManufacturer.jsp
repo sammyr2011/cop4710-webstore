@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Generic title</title>
+		<title>Add Manufacturer</title>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
     </head>
     <body>

@@ -6,14 +6,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Generic title</title>
+		<title>Successfully Reviewed <s:property value="%{product.name}"/></title>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
     </head>
     <body>
 		<div class="content">
 			<s:include value="/header.jsp" />
 			<div class="sectionHeader">
-				<p class="sectionHeaderText">Successfully reviewed <i><s:property value="%{product.name}"/>"</i></p>
+				<p class="sectionHeaderText">Successfully reviewed <i><s:property value="%{product.name}"/></i></p>
 			</div>
 			Ok!
 		</div>

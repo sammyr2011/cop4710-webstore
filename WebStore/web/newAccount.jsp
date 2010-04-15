@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Add User</title>
+        <title>User Registration</title>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/"/>main.css">
 		<style type="text/css">
 			input{

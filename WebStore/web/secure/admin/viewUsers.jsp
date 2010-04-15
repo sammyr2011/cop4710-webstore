@@ -6,14 +6,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>View Users</title>
+        <title>Edit Users</title>
 		<link rel="stylesheet" type="text/css" href="<s:url value="/main.css"/>"/>
     </head>
     <body>
 		<div class="content">
 			<s:include value="/header.jsp" />
 			<div class="sectionHeader">
-				<p class="sectionHeaderText">View Users</p>
+				<p class="sectionHeaderText">Select User to Edit</p>
 			</div>
 
 			<ol style="text-align: left;">

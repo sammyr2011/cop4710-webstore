@@ -815,7 +815,7 @@ public class Database
 	 */
 	private Vector<?> executeQuery(String query, DataType dataType)
 	{
-		System.out.println("executeQuery: " + query);
+		System.out.println("Executing: " + query);
 		// TODO: ? Break this function down or get rid of it, it's a horrible mess
 		Vector<Account> fetchedAccount = null;
 		Vector<Product> fetchedProduct = null;

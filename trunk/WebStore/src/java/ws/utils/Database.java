@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.xwork.StringUtils;
@@ -28,6 +29,18 @@ public class Database
 	 * Password of the user to connect to the database as
 	 */
 	private static final String connectionPass = "asdf";
+
+	// Temporary caches for frequently accessed data. Has to be cleared whenever data is edited or deleted!
+	private ConcurrentHashMap<Integer, String> productNameCache = new ConcurrentHashMap<Integer, String>();
+	private ConcurrentHashMap<Integer, Double> productRatingCache = new ConcurrentHashMap<Integer, Double>();
+	private ConcurrentHashMap<Integer, String> userNameCache = new ConcurrentHashMap<Integer, String>();
+	private ConcurrentHashMap<Integer, String> manufacturerNameCache = new ConcurrentHashMap<Integer, String>();
+
+	// Milliseconds since the last time we cleared the cache data
+	long lastCacheRefresh = 0;
+	
+	// Milliseconds to pass before clearing cache
+	private static final long cacheRefreshFrequencyInMs = 60000*10;
 
 	/**
 	 * Type of data to fetch from database. Mainly used in executeQuery(String, DataType)
@@ -67,6 +80,25 @@ public class Database
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		return DriverManager.getConnection(connectionString, connectionName, connectionPass);
+	}
+
+	/**
+	 * Clears caches if it's been a while since the last time they were cleared.
+	 * TODO: Timer/scheduler would be much better, but this will do for now
+	 */
+	public void checkCache()
+	{
+		if (System.currentTimeMillis() - lastCacheRefresh > cacheRefreshFrequencyInMs)
+		{
+			System.out.println("Clearing cache...");
+
+			productNameCache.clear();
+			productRatingCache.clear();
+			userNameCache.clear();
+			manufacturerNameCache.clear();
+
+			lastCacheRefresh = System.currentTimeMillis();
+		}
 	}
 
 	/**
@@ -175,6 +207,7 @@ public class Database
 				+ rating + "', '"
 				+ Utils.sanitize(comment) + "');";
 
+		productRatingCache.remove(productId);
 		return executeQueryUpdate(query);
 	}
 
@@ -243,14 +276,23 @@ public class Database
 
 	/**
 	 * Returns the user's name
-	 * @param userId - ID of user
+	 * @param id - ID of user
 	 * @return Name of user
 	 */
-	public String getUserName(int userId)
+	public String getUserName(int id)
 	{
-		String query = "SELECT `username` FROM `users` WHERE `UserId` = " + userId + " LIMIT 1 ;";
+		checkCache();
 
-		return Utils.unsanatize(executeQuerySingleResult(query).toString());
+		if (userNameCache.containsKey(id))
+		{
+			return userNameCache.get(id);
+		}
+
+		String query = "SELECT `username` FROM `users` WHERE `UserId` = " + id + " LIMIT 1 ;";
+		String result = Utils.unsanatize(executeQuerySingleResult(query).toString());
+		userNameCache.put(id, result);
+
+		return result;
 	}
 
 	/**
@@ -279,9 +321,19 @@ public class Database
 	 */
 	public String getProductName(int id)
 	{
-		String query = "SELECT `Name` FROM `product` WHERE `ProductId` = '" + id + "' LIMIT 1 ;";
+		checkCache();
 
-		return Utils.unsanatize(executeQuerySingleResult(query).toString());
+		if (productNameCache.containsKey(id))
+		{
+			//	System.out.println(String.format("Got cached product name: %d -> %s", id, productNameCache.get(id)));
+			return productNameCache.get(id);
+		}
+
+		String query = "SELECT `Name` FROM `product` WHERE `ProductId` = '" + id + "' LIMIT 1 ;";
+		String result = Utils.unsanatize(executeQuerySingleResult(query).toString());
+		productNameCache.put(id, result);
+
+		return result;
 	}
 
 	/**
@@ -310,9 +362,18 @@ public class Database
 	 */
 	public String getManufacturerName(int id)
 	{
-		String query = "SELECT `CompanyName` FROM `manufacturer` WHERE `mId` = '" + id + "' LIMIT 1 ;";
+		checkCache();
 
-		return Utils.unsanatize(executeQuerySingleResult(query).toString());
+		if (manufacturerNameCache.containsKey(id))
+		{
+			return manufacturerNameCache.get(id);
+		}
+
+		String query = "SELECT `CompanyName` FROM `manufacturer` WHERE `mId` = '" + id + "' LIMIT 1 ;";
+		String result = Utils.unsanatize(executeQuerySingleResult(query).toString());
+		manufacturerNameCache.put(id, result);
+
+		return result;
 	}
 
 	/**
@@ -341,6 +402,13 @@ public class Database
 	 */
 	public Double getReviewRating(int id)
 	{
+		checkCache();
+
+		if (productRatingCache.containsKey(id))
+		{
+			return productRatingCache.get(id);
+		}
+
 		String query = "SELECT AVG( `Rating` ) FROM `reviews` WHERE `ProductID` = '" + id + "' LIMIT 1 ;";
 
 		Double result = Double.parseDouble(executeQuerySingleResult(query).toString());
@@ -349,6 +417,8 @@ public class Database
 		{
 			result /= 10.0;
 		}
+
+		productRatingCache.put(id, result);
 
 		return result;
 	}
@@ -394,6 +464,7 @@ public class Database
 		if (!StringUtils.isEmpty(userName))
 		{
 			query.append(String.format("`%s` = '%s', ", "username", Utils.sanitize(userName)));
+			userNameCache.remove(id);
 		}
 		if (!StringUtils.isEmpty(email))
 		{
@@ -453,6 +524,7 @@ public class Database
 		if (StringUtils.isNotEmpty(name))
 		{
 			query.append(String.format("`%s` = '%s', ", "name", Utils.sanitize(name)));
+			productNameCache.remove(id);
 		}
 		if (manufacturerId != null)
 		{
@@ -511,6 +583,7 @@ public class Database
 		if (StringUtils.isNotEmpty(name))
 		{
 			query.append(String.format("`%s` = '%s', ", "CompanyName", Utils.sanitize(name)));
+			manufacturerNameCache.remove(id);
 		}
 		if (website != null)
 		{
@@ -551,6 +624,7 @@ public class Database
 		if (rating != null)
 		{
 			query.append(String.format("`%s` = '%d', ", "rating", productId));
+			productRatingCache.remove(productId);
 		}
 		if (StringUtils.isNotEmpty(comment))
 		{
@@ -715,25 +789,6 @@ public class Database
 	}
 
 	/**
-	 * Obtains a list of all usernames. Currently only for the login page for testing purposes only
-	 * @return list of all usernames
-	 */
-	public Vector<String> getUsernames()
-	{
-		String query = "SELECT * FROM `users`";
-		Vector<String> usernames = new Vector<String>();
-
-		Vector<Account> users = (Vector<Account>) executeQuery(query, DataType.Account);
-
-		for (Account account : users)
-		{
-			usernames.add(account.getUserName());
-		}
-
-		return usernames;
-	}
-
-	/**
 	 * Deletes the specified product from the database
 	 * @param productId - ID of product to delete
 	 * @return true on success
@@ -741,6 +796,7 @@ public class Database
 	public boolean DeleteProduct(int productId)
 	{
 		String query = "DELETE FROM `webstore`.`product` WHERE `product`.`ProductID` = " + productId + " LIMIT 1";
+		productNameCache.remove(productId);
 
 		return executeQueryUpdate(query);
 	}

@@ -29,18 +29,15 @@ public class Database
 	 * Password of the user to connect to the database as
 	 */
 	private static final String connectionPass = "asdf";
-
 	// Temporary caches for frequently accessed data. Has to be cleared whenever data is edited or deleted!
 	private ConcurrentHashMap<Integer, String> productNameCache = new ConcurrentHashMap<Integer, String>();
 	private ConcurrentHashMap<Integer, Double> productRatingCache = new ConcurrentHashMap<Integer, Double>();
 	private ConcurrentHashMap<Integer, String> userNameCache = new ConcurrentHashMap<Integer, String>();
 	private ConcurrentHashMap<Integer, String> manufacturerNameCache = new ConcurrentHashMap<Integer, String>();
-
 	// Milliseconds since the last time we cleared the cache data
 	long lastCacheRefresh = 0;
-	
 	// Milliseconds to pass before clearing cache
-	private static final long cacheRefreshFrequencyInMs = 60000*10;
+	private static final long cacheRefreshFrequencyInMs = 60000 * 10;
 
 	/**
 	 * Type of data to fetch from database. Mainly used in executeQuery(String, DataType)
@@ -599,93 +596,6 @@ public class Database
 	}
 
 	/**
-	 * Edits review information. Fields may be null if change is not desired.
-	 * @param id - ID of review to edit
-	 * @param userId - Unique ID of user making the review
-	 * @param productId - Unique ID of product reviewed
-	 * @param rating - User rating
-	 * @param comment - Review text
-	 * @return true on success
-	 */
-	public boolean editReview(int id, Integer userId, Integer productId, Integer rating, String comment)
-	{
-		StringBuilder query = new StringBuilder();
-
-		query.append("UPDATE `reviews` SET ");
-
-		if (userId != null)
-		{
-			query.append(String.format("`%s` = '%d', ", "userId", userId));
-		}
-		if (productId != null)
-		{
-			query.append(String.format("`%s` = '%d', ", "productId", productId));
-		}
-		if (rating != null)
-		{
-			query.append(String.format("`%s` = '%d', ", "rating", productId));
-			productRatingCache.remove(productId);
-		}
-		if (StringUtils.isNotEmpty(comment))
-		{
-			query.append(String.format("`%s` = '%s', ", "comment", Utils.sanitize(comment)));
-		}
-
-		// Just to remove the trailing comma. There are much better ways of going about this, but
-		//   I just want to get this done.
-		query.delete(query.length() - 2, query.length() + 1);
-		query.append(String.format("WHERE `ReviewId` = %d LIMIT 1", id));
-
-		return executeQueryUpdate(query.toString());
-	}
-
-	/**
-	 * Edits transaction information. Fields may be null if change is not desired.
-	 * @param id - Unique transaction ID
-	 * @param userId - Unique ID of user making the purchase
-	 * @param productId - Unique ID of product purchased
-	 * @param price - Price of product at time of transaction
-	 * @param shippingPrice - Shipping price
-	 * @param shippingAddress - Shipping address
-	 * @return true on success
-	 */
-	public boolean editTransaction(int id, Integer userId, Integer productId, Double price, Double shippingPrice, String shippingAddress)
-	{
-		StringBuilder query = new StringBuilder();
-
-		query.append("UPDATE `purchases` SET ");
-
-		if (userId != null)
-		{
-			query.append(String.format("`%s` = '%d', ", "userId", userId));
-		}
-		if (productId != null)
-		{
-			query.append(String.format("`%s` = '%d', ", "productId", productId));
-		}
-		if (price != null)
-		{
-			query.append(String.format("`%s` = '%f', ", "price", price));
-		}
-		if (shippingPrice != null)
-		{
-			query.append(String.format("`%s` = '%f', ", "shippingPrice", shippingPrice));
-		}
-		if (shippingAddress != null)
-		{
-			query.append(String.format("`%s` = '%s', ", "shippingAddress", Utils.sanitize(shippingAddress)));
-		}
-
-		// Just to remove the trailing comma. There are much better ways of going about this, but
-		//   I just want to get this done.
-		query.delete(query.length() - 2, query.length() + 1);
-
-		query.append(String.format("WHERE `purchases` = '%d' LIMIT 1", id));
-
-		return executeQueryUpdate(query.toString());
-	}
-
-	/**
 	 * Obtains a list of all the users. For use in user management system.
 	 * @return List of all users
 	 */
@@ -715,18 +625,6 @@ public class Database
 	public Vector<Product> getProducts(int manufacturerId)
 	{
 		String query = String.format("SELECT * FROM `product` WHERE `manufacturerId` = '%d'", manufacturerId);
-
-		return (Vector<Product>) executeQuery(query, DataType.Product);
-	}
-
-	/**
-	 * Returns a list of products containing specified string
-	 * @param searchString - String to search for in description in name of products
-	 * @return List of products contining specified string
-	 */
-	public Vector<Product> getProducts(String searchString)
-	{
-		String query = String.format("SELECT * FROM `product` WHERE `description` LIKE '%%%d%%' OR `name` LIKE '%%%s%%'", searchString, searchString);
 
 		return (Vector<Product>) executeQuery(query, DataType.Product);
 	}
